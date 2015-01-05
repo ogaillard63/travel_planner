@@ -1,0 +1,7 @@
+<page backtop="5mm" backbottom="10mm" backleft="10mm" backright="5mm" footer="page;">
+    <div class="country">{$place->country->name} : {$place->name}</div>
+    <p class="places">{$place->description}</p>
+    {if $activities}{foreach from=$activities item=activity}
+    <div class="activities">{$activity->name} ({$activity->type->name})</div>
+    <p class="activities">{$activity->description|nl2br}</p>{/foreach}{/if}
+</page>

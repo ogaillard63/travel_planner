@@ -1,0 +1,24 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">{if $type->id > -1}{#edit_a_type#|ucfirst}{else}{#add_a_type#|ucfirst}{/if}</h1>
+		</div>
+	</div>
+	<form name="form_param" method="post" action="types.php">
+		<input name="id" type="hidden" value="{$type->id}" />
+		<input name="action" type="hidden" value="save" />
+		 <fieldset>
+			 <div class="form-group">
+				<label>{#name#|ucfirst}</label>
+				<input class="form-control" type="text" name="name" value="{$type->name}" />
+			</div>
+		 <div class="form-group">
+				<label>{#key#|ucfirst}</label>
+				<input class="form-control" type="text" name="key" value="{$type->key}" />
+			</div>
+		</fieldset>
+	   <div align="right">
+			<input type="submit" value="{#save#|capitalize}" class="btn btn-success" />
+	   </div>
+	</form>
+</div>

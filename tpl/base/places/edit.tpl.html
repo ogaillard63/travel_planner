@@ -1,0 +1,97 @@
+<div class="row">
+	<div class="col-lg-12" id="left">
+		<div class="panel panel-default">
+			<div class="panel-heading">{if $place->id > -1}{#edit_a_place#|ucfirst}{else}{#add_a_place#|ucfirst}{/if}
+			</div>
+			<div class="panel-body">	
+				<form name="form_param" method="post" action="places.php">
+					<input name="country_id" type="hidden" value="{$place->country_id}" />
+					<input name="id" type="hidden" value="{$place->id}" />
+					<input name="action" type="hidden" value="save" />
+					<!-- <div class="form-group">
+						<label>{#country#|ucfirst}</label>
+						{if isset($place->country_id)}{html_options name=country_id options=$countries selected=$place->country_id class="form-control"}{else}{html_options name=country_id options=$countries class="form-control"}{/if}
+					</div>-->
+					<div class="row">
+						<div class="col-lg-8">
+							<div class="form-group">
+								<label>{#name#|ucfirst}</label>
+								<input id="place_name" class="form-control" type="text" name="name" value="{$place->name}" />
+							</div>
+							 <div class="form-group">
+								<label>{#gps_coord#|ucfirst}</label>
+								<input id="gps_coord" class="form-control" type="text" name="gps_coord" value="{$place->gps_coord}" />
+							</div>
+							<div class="form-group">
+								<label>{#description#|ucfirst}</label>
+								<textarea id="editor" class="form-control" name="description" rows="20">{$place->description}</textarea>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div id="map-canvas" style="height: 400px;"></div>
+						</div>
+					</div>
+
+				   <div align="right">
+						<button class="btn btn-danger" type="cancel">Annuler</button>
+						<input type="submit" value="{#save#|capitalize}" class="btn btn-success" />
+				   </div>
+				</form>
+			</div>
+			<script>
+			  $('#editor').wysihtml5({
+					"font-styles": false, "emphasis": true, "lists": false, "html": true, "link": false, "image": false, "color": false, "blockquote": false 
+				});
+			</script>
+		</div>
+	</div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places" type="text/javascript"></script>
+
+<script type="text/javascript">
+	var mapCanvas = document.getElementById('map-canvas');
+	function initialize() {
+		var mapOptions = {
+			center: new google.maps.LatLng(-33.8688, 151.2195),
+			zoom: 13,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+		var map = new google.maps.Map(mapCanvas, mapOptions);
+
+		var place_name = document.getElementById('place_name');
+		var gps_coord = document.getElementById('gps_coord');
+		var autocomplete = new google.maps.places.Autocomplete(place_name);
+
+		autocomplete.bindTo('bounds', map);
+
+		var infowindow = new google.maps.InfoWindow();
+		var marker = new google.maps.Marker({
+			map: map
+		});
+
+		google.maps.event.addListener(autocomplete, 'place_changed', function() {
+			var place = autocomplete.getPlace();
+			//console.log(place);
+
+			if (!place.geometry) {
+				// Inform the user that the place was not found and return.
+				place_name.className = 'notfound';
+				return;
+			}
+			else {
+				gps_coord.value= place.geometry.location.toString().replace('(', '').replace(')', '');
+				place_name.value = place.name;
+			}
+			// If the place has a geometry, then present it on a map.
+			if (place.geometry.viewport) {
+				map.fitBounds(place.geometry.viewport);
+			} else {
+				map.setCenter(place.geometry.location);
+				map.setZoom(17);  // Why 17? Because it looks good.
+			}
+			marker.setPosition(place.geometry.location);
+		});
+	}
+	google.maps.event.addDomListener(window, 'load', initialize)
+
+</script>

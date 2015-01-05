@@ -1,0 +1,112 @@
+<div class="row">
+	<div class="col-xs-6" id="left">
+		<div class="panel panel-default">
+			<div class="panel-heading">{#list#|ucfirst} {#of_#} {#places#}
+				<div class="pull-right"><a href="places.php?action=add&country_id={$country_id}" class="btn btn-xs btn-primary pull-right" role="button">{#add#|ucfirst} {#a#} {#place#}</a>
+				</div>
+			</div>
+			<div class="panel-body">
+			  {if not empty($places)}
+				<table class="table table-hover table-striped">
+					<tbody class="tableSortable">
+					{foreach from=$places item=place}
+						<tr id="position_{$place->id}">
+							<td align="left"><a href="activities.php?place_id={$place->id}">{$place->name}</a></td>
+							<!-- <td align="center"><a class="" href="http://maps.google.fr/maps?f=q&hl=fr&q={$place->gps_coord|strip:''}" title="{$place->gps_coord}" target="_blank"><i class="fa fa-map-marker fa-2x"></i></a>
+							</td>-->
+							<!--<td align="left">{$place->description|nl2br|truncate:40:' ... ':false}</td>-->
+							<td width="1%" align="center"><a class="btn btn-xs btn-warning" href="places.php?action=pdf&id={$place->id}&country_id={$place->country_id}" target="_blank" title="{#save_to_pdf#|ucfirst}"><i class="fa fa-file-pdf-o"></i></a></td>
+							<td width="1%" align="center"><a class="btn btn-xs btn-success" href="places.php?action=edit&id={$place->id}&country_id={$place->country_id}" title="{#edit#|ucfirst} {#this#} {#place#}"><i class="fa fa-pencil"></i></a></td>
+							<td width="1%" align="center"><a class="btn btn-xs btn-danger" href="places.php?action=delete&id={$place->id}&country_id={$place->country_id}" title="{#delete#|ucfirst} {#this#} {#place#}" onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#place#} ?')"><i class="fa fa-trash"></i></a></td>
+						</tr>
+					{/foreach}
+					</tbody>
+				</table>
+				<ul class="pagination pull-left">
+					{if not empty($btn_infos)} {foreach from=$btn_infos item=btn}
+					<li{if $btn.active} class="active" {/if}><a href="places.php?country_id={$place->country_id}{$btn.link}">{$btn.label}</a>
+						</li>
+						{/foreach}{/if}
+				</ul>
+				{else}
+				<h4>{#empty_list#}</h4>{/if}
+        
+
+			</div>
+		</div>
+    </div>
+    <div class="col-xs-6">
+        <div class="panel panel-default">
+			<div class="panel-body">
+				{if $places}<div id="map-canvas" style="height: 480px;"></div>{else}<h4>{#empty_list#}</h4>{/if}
+			</div>
+		</div>
+    </div>
+</div>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$( "tbody.tableSortable" )
+				.sortable({
+					items: "tr",
+					helper:"clone",
+					zIndex: 999990,
+					update: function(){
+						$.ajax({
+							data: $(this).sortable('serialize'),
+							type: 'POST',
+							url: 'ajax.php?action=sort_places'
+						});
+					}
+				})
+				.disableSelection()	;
+	});
+</script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+
+<script type="text/javascript">
+	var icon_marker = "{$tpl}/assets/css/img/star.png";
+	var markers = [];
+	var iterator = 0;
+	var places = [];
+
+	{foreach from=$allPlaces item=place}
+	{literal}places.push({{/literal}coord: new google.maps.LatLng({$place->gps_coord}), name: "{$place->name}"{literal}});{/literal}
+	{/foreach}
+
+	var nbMarkers = places.length;
+	var mapCanvas = document.getElementById('map-canvas');
+
+
+	function initialize() {
+		var mapOptions = {
+			disableDefaultUI: true,
+			mapTypeId: google.maps.MapTypeId.TERRAIN,
+		};
+
+		var map = new google.maps.Map(mapCanvas,  mapOptions);
+		var bounds = new google.maps.LatLngBounds();
+		for (var i = 0; i < nbMarkers; i++) {
+			bounds.extend(places[i].coord);
+			addMarker();
+		}
+
+		var markerCluster = new MarkerClusterer(map, markers);
+		map.fitBounds(bounds);
+	}
+
+	function addMarker() {
+		markers.push(new google.maps.Marker({
+			position: places[iterator].coord,
+			//icon: icon_marker,
+			title : places[iterator].name,
+			draggable: false,
+			animation: google.maps.Animation.DROP
+		}));
+		iterator++;
+	}
+
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>

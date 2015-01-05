@@ -1,0 +1,42 @@
+<div class="row">
+	<div class="col-xs-12" id="left">
+		<div class="panel panel-default">
+			<div class="panel-heading">{if $country->id > -1}{#edit_a_country#|ucfirst}{else}{#add_a_country#|ucfirst}{/if}
+			</div>
+			<div class="panel-body">
+				<form name="form_param" method="post" action="countries.php">
+					<input name="id" type="hidden" value="{$country->id}" />
+					<input name="action" type="hidden" value="save" />
+					 <fieldset>
+						 <div class="form-group">
+							<label>{#continent#|ucfirst}</label>
+						{if isset($country->continent_id)}{html_options name=continent_id options=$continents selected=$country->continent_id class="form-control"}{else}{html_options name=continent_id options=$continents class="form-control"}{/if}
+						</div>
+						<div class="form-group">
+							<label>{#name#|ucfirst}</label>
+							<input class="form-control" type="text" name="name" value="{$country->name}" />
+						</div>
+						<div class="item">
+							<label>{#description#|ucfirst}</label>
+							<textarea id="editor" class="form-control" name="description" rows="15">{$country->description}</textarea>
+						</div>
+						<br/>
+						<div class="form-group">
+							<label>{#flag#|ucfirst}</label>
+							<input class="form-control" type="text" name="flag" value="{$country->flag}" />
+						</div>
+					</fieldset>
+				   <div align="right">
+						<button class="btn btn-danger" type="cancel">Annuler</button>
+						<input type="submit" value="{#save#|capitalize}" class="btn btn-success" />
+				   </div>
+				</form>
+			</div>
+			<script>
+			  $('#editor').wysihtml5({
+					"font-styles": false, "emphasis": true, "lists": false, "html": true, "link": false, "image": false, "color": false, "blockquote": false 
+				});
+			</script>
+		</div>
+	</div>
+</div>

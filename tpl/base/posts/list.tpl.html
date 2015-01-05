@@ -1,0 +1,34 @@
+<div class="row">
+	<div class="col-xs-12" id="left">
+		<div class="panel panel-default">
+			<div class="panel-heading">{#list#|ucfirst} {#of_#} {#posts#}
+				<div class="pull-right"><a href="posts.php?action=add" class="btn btn-xs btn-primary pull-right" role="button">{#add#|ucfirst} {#a#} {#post#}</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				{if not empty($posts)}<table class="table table-hover table-striped table-valign">
+				<thead>
+				<tr>
+							<th>{#place_id#|ucfirst}</th>
+		<th>{#title#|ucfirst}</th>
+		<th>{#text#|ucfirst}</th>
+					<th colspan="2">{#actions#|ucfirst}</th>
+				</tr>
+				</thead>
+				<tbody>
+				{foreach from=$posts item=post}
+				<tr>
+						  	<td align="left">{$post->place_id}</td>
+	  	<td align="left">{$post->title}</td>
+	  	<td align="left">{$post->text}</td>
+					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="posts.php?action=edit&id={$post->id}" title="{#edit#|ucfirst} {#this#} {#post#}">{#edit#|ucfirst}</a></td>
+					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="posts.php?action=delete&id={$post->id}" title="{#delete#|ucfirst} {#this#} {#post#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#post#} ?')">{#delete#|ucfirst}</a></td>
+				</tr>
+				{/foreach}
+				</tbody>
+			</table>
+				{else}<h4>{#empty_list#}</h4>{/if}
+			</div>
+		</div>
+	</div>
+</div>

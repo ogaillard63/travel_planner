@@ -1,0 +1,16 @@
+<div id="loginbox">
+    <form name="login_form" method="post" action="identification.php" class="classic_form">
+        <input name="action" type="hidden" value="submit" />
+        <h2>{#identification#|ucfirst}</h2>
+        <div class="item">
+            <label>{#login#|ucfirst}</label>
+            <input name="login" type="text" tabindex="1" size="20" maxlength="32"/>
+        </div>
+        <div class="item">
+            <label>{#password#|ucfirst}</label>
+            <input name="password" type="password" tabindex="2" size="20" maxlength="32" />
+        </div>
+        {if isset($warning)}<p id="warning">{$warning}</p>{/if}
+        <p align="right"><input type="submit" value="{#connection#|ucfirst}" class="bouton vert" /></p>
+    </form>
+</div>

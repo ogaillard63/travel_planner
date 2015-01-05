@@ -1,0 +1,39 @@
+<div class="row">
+	<div class="col-xs-12" id="left">
+		<div class="panel panel-default">
+			<div class="panel-heading">{if $activity->id > -1}{#edit_an_activity#|ucfirst}{else}{#add_an_activity#|ucfirst}{/if}</div>
+			<div class="panel-body">
+				<form name="form_param" method="post" action="activities.php">
+					<input name="id" type="hidden" value="{$activity->id}" />
+					<input name="place_id" type="hidden" value="{$activity->place_id}" />
+					<input name="action" type="hidden" value="save" />
+					<div class="form-group">
+						<label>{#name#|ucfirst}</label>
+						<input class="form-control" type="text" name="name" value="{$activity->name}" />
+					</div>
+					<div class="form-group">
+						<label>{#type#|ucfirst}</label>
+						{if isset($activity->type_id)}{html_options name=type_id options=$types selected=$activity->type_id class="form-control"}{else}{html_options name=type_id options=$types class="form-control"}{/if}
+					</div>
+					<!--<div class="form-group">
+						<label>{#important#|ucfirst}</label>
+						<textarea class="form-control" name="important" rows="5">{$activity->important}</textarea>
+					</div>-->
+					<div class="form-group">
+						<label>{#description#|ucfirst}</label>
+						<textarea id="editor" class="form-control" name="description" rows="20">{$activity->description}</textarea>
+					</div>
+					<div align="right">
+						<button class="btn btn-danger" type="cancel">Annuler</button>
+						<input type="submit" value="{#save#|capitalize}" class="btn btn-success" />
+					</div>
+				</form>
+				<script>
+					$('#editor').wysihtml5({
+						"font-styles": false, "emphasis": true, "lists": false, "html": true, "link": false, "image": false, "color": false, "blockquote": false
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+</div>

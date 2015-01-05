@@ -1,0 +1,11 @@
+<page backtop="5mm" backbottom="10mm" backleft="10mm" backright="5mm" footer="page;">
+    <div class="country"><img src="{$country->flag}">&nbsp;{$country->name}</div>
+    <p class="country">{$country->description}</p>
+    {if $places}{foreach from=$places item=place}
+    <div class="places">{$place->name}</div>
+    <p class="places">{$place->description|nl2br}</p>
+    {foreach from=$activities item=activity}
+    {if $place->id == $activity->place->id}<div class="activities">> {$activity->type->name} : {$activity->name}</div>
+    <p class="activities">{$activity->description|nl2br}</p>{/if}{/foreach}
+    {/foreach}{/if}
+</page>

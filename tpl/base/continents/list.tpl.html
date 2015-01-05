@@ -1,0 +1,92 @@
+<div class="row">
+	<div class="col-xs-4">
+		<div class="panel panel-default">
+			{if not empty($continents)}<table class="table table-hover table-valign">
+			<!--<tr>
+				<th>{#name#|ucfirst}</th>
+				<th colspan="2">{#actions#|ucfirst}</th>
+			 </tr>-->
+			{foreach from=$continents item=continent}
+				{if $continent->countries}  <tr>
+				<td align="left" colspan="5" style="background: #D9D9D9"><strong>{$continent->name}</strong></td>
+				<!--<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="continent.php?action=edit&id={$continent->id}" title="{#edit#|ucfirst} {#this#} {#country#}"><i class="fa fa-pencil"></i></a></td>
+				<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="continent.php?action=delete&id={$continent->id}" title="{#delete#|ucfirst} {#this#} {#country#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#country#} ?')"><i class="fa fa-trash"></i></a></td>-->
+			  </tr>
+				{foreach from=$continent->countries item=country}
+				<tr>
+					<td>&nbsp;</td>
+					<td align="center" width="1%"><img src="{$country->flag}"></td>
+					<td><a href="places.php?country_id={$country->id}">{$country->name}</a></td>
+					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-warning" href="places.php?country_id={$country->id}&continent_id={$country->continent_id}" title="{#places#|ucfirst}"><i class="fa fa-star"></i></a></td>
+					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-info" href="routes.php?country_id={$country->id}&continent_id={$country->continent_id}" title="{#routes#|ucfirst}"><i class="fa fa-bus"></i></a></td>
+			</tr>
+				{/foreach}{/if}
+			{/foreach}
+			</table>
+			{else}<h4>{#empty_list#}</h4>{/if}
+			<!--<br/>
+			<div align="right">
+				<a href="continents.php?action=add" class="btn btn-primary">{#add#|ucfirst} {#a#} {#continent#}</a>
+			</div>-->
+		</div>
+	</div>
+	<div class="col-xs-8">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div id="map-canvas" style="height: 480px;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+
+<script type="text/javascript">
+	var icon_marker = "{$tpl}/assets/css/img/star.png";
+	var markers = [];
+	var iterator = 0;
+	var places = [];
+
+	{foreach from=$allPlaces item=place}
+	{literal}places.push({{/literal}coord: new google.maps.LatLng({$place->gps_coord}), name: "{$place->name}", id: "{$place->id}"{literal}});{/literal}
+	{/foreach}
+
+	var nbMarkers = places.length;
+	var mapCanvas = document.getElementById('map-canvas');
+
+	function initialize() {
+		var mapOptions = {
+			disableDefaultUI: true,
+			mapTypeId: google.maps.MapTypeId.TERRAIN
+		};
+
+		var map = new google.maps.Map(mapCanvas,  mapOptions);
+		var bounds = new google.maps.LatLngBounds();
+		for (var i = 0; i < nbMarkers; i++) {
+			bounds.extend(places[i].coord);
+			addMarker();
+		}
+
+		var markerCluster = new MarkerClusterer(map, markers);
+		map.fitBounds(bounds);
+
+	}
+
+	function addMarker() {
+		markers.push(new google.maps.Marker({
+			position: places[iterator].coord,
+			title : places[iterator].name,
+			draggable: false,
+			url: "activities.php?place_id=" + places[iterator].id,
+			animation: google.maps.Animation.DROP
+		}));
+		google.maps.event.addListener(markers[iterator], 'click', function() {
+			window.location.href = this.url;
+		});
+		iterator++;
+	}
+
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+			

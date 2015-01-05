@@ -1,0 +1,68 @@
+{config_load file="{$smarty.session.filePathLang}"}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+     <!-- Prevent most search engine web crawlers from indexing -->
+	<meta name="robots" content="noindex">
+    <title>Travel Planner</title>
+     <!-- Bootstrap Core CSS -->
+    <link href="{$tpl}/assets/css/bootstrap.min.css" rel="stylesheet">
+	<!-- MetisMenu CSS -->
+    <link href="{$tpl}/assets/plugins/metisMenu/css/metisMenu.min.css" rel="stylesheet">
+	<!-- Bootstrap-wysihtml5 CSS -->
+    <link href="{$tpl}/assets/plugins/wysihtml5/css/bootstrap3-wysihtml5.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{$tpl}/assets/css/sb-admin-2.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="{$tpl}/assets/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{$tpl}/assets/js/bootstrap.min.js"></script>
+	<!-- Metis Menu Plugin JavaScript -->
+    <script src="{$tpl}/assets/plugins/metisMenu/js/metisMenu.min.js"></script>
+	<!-- Bootstrap-wysihtml5 Editor Plugin JavaScript -->
+    <script src="{$tpl}/assets/plugins/wysihtml5/js/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="{$tpl}/assets/js/sb-admin-2.js"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+			{include file="navbar.tpl.html"}
+        </nav>
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+			<div class="container-fluid">
+			{include file="breadcrumb.tpl.html"}	
+			{include file="$content"}
+			</div>
+		</div>
+        <!-- /#page-wrapper -->
+		{if isset($alert.msg)}<div class="alert {$alert.type}">
+			<a href="#" class="close" data-dismiss="alert">&times;</a>
+			<strong>{$alert.msg}</strong>
+		</div>{/if}
+    </div>
+   <!-- Custom JavaScript -->
+    <script src="{$tpl}/assets/js/custom.js"></script>
+</body>
+</html>
+
+
+

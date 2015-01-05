@@ -1,0 +1,9 @@
+{if not empty($breadcrumbs)}<div class="row">
+	<div class="col-lg-12">
+		<ol class="breadcrumb">
+		   {foreach from=$breadcrumbs item=crumb}
+			 <li{if $crumb.active == true} class="active"{/if}>{if $crumb.link != ""}<a href="{$crumb.link}">{$crumb.part}</a>{else}{$crumb.part}{/if}</li>
+			{/foreach}
+		</ol>
+	</div>
+</div>{/if}

@@ -1,0 +1,113 @@
+#titles
+edit_a_continent = modifier un continent
+add_a_continent = ajouter un nouveau continent
+edit_a_country = modifier un pays
+add_a_country = ajouter un nouveau pays
+edit_a_place = modifier un lieu
+add_a_place = ajouter un nouveau lieu
+edit_an_activity = modifier une activité
+add_an_activity = ajouter une nouvelle activité
+edit_a_route = modifier un trajet
+add_a_route = ajouter un nouveau trajet
+edit_a_post = modifier un article
+add_a_post = ajouter un nouvel article
+edit_a_user = modifier un utilisateur
+add_a_user = ajouter un nouvel utilisateur
+edit_a_photo = modifier une photo
+add_a_photo = ajouter une nouvelle photo
+edit_a_type = modifier un type d'activité
+add_a_type = ajouter un nouveau type d'activité
+
+# labels
+home = accueil
+action = action
+actions = actions
+continents = continents
+continent = continent
+country = pays
+countries = pays
+activity = activité
+activities = activités
+place = lieu
+places = lieux
+route = trajet
+routes = trajets
+photo = photo
+photos = photos
+identification = identification
+user = utilisateur
+users = utilisateurs
+post = article
+posts = articles
+type = type
+types = types
+important = Bon à savoir
+map = carte
+expiration = expiration
+
+# fields
+name = nom
+firstname = prénom
+login = identifiant
+password = mot de passe
+email = email
+profil = profil
+expiration_date = expiration
+last_cnx = dernière cnx
+gps = GPS
+gps_coord = Coordonnées GPS
+gps_lat = latitude
+gps_lon = longitude
+caption = légende
+modification = modification
+title = titre
+text = texte
+description = description
+flag = drapeau
+key = clef
+gps_track = Trace GPS
+
+#messages
+empty_list = La liste est vide !
+do_you_really_want_to = Voulez-vous vraiment
+please_wait = Veuillez patienter ...
+hello = bonjour
+the_continent_has_been_saved = Le continent a été sauvegardé.
+the_continent_has_been_deleted = Le continent a été effacé !
+the_country_has_been_saved = Le pays a été sauvegardé.
+the_country_has_been_deleted = Le pays a été effacé !
+the_place_has_been_saved = Le lieu a été sauvegardé.
+the_place_has_been_deleted = Le lieu a été effacé !
+the_route_has_been_saved = Le trajet a été sauvegardé.
+the_route_has_been_deleted = Le trajet a été effacé !
+the_photo_has_been_saved = La photo a été sauvegardée.
+the_photo_has_been_deleted = La photo a été effacée !
+the_post_has_been_saved = L'article a été sauvegardé.
+the_post_has_been_deleted = L'article a été effacé !
+the_user_has_been_saved = L'utilisateur a été sauvegardé.
+the_user_has_been_deleted = L'utilisateur a été effacé !
+the_post_has_been_saved = L'article a été sauvegardé.
+the_post_has_been_deleted = L'article a été effacé !
+you_are_not_allowed_to_do_this_action = vous n'êtes pas autorisé à faire cette action !
+save_to_pdf = Enregistrer en PDF
+
+# buttons
+edit = modifier
+delete = effacer
+save = enregistrer
+exit = quitter
+connection = connexion
+cancel = annuler
+
+# misc
+list = liste
+of = de
+of_ = des
+add = ajouter
+a = un
+an = un
+a_ = une
+an_ = une
+this = ce
+from = de
+to = vers
