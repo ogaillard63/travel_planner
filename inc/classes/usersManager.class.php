@@ -7,7 +7,7 @@
  * @desc	   	Gestion des users
  */
 
-class UserManager {
+class UsersManager {
 	protected $bdd;
 	protected $profils = array("100" => "User",
 			"200" => "Administrateur", "300" => "Super-Administrateur");

@@ -25,7 +25,7 @@ if (!empty($code)) {
 	if (array_key_exists($code, $valid_codes)) $country_id = $valid_codes[$code];
 	else Utils::redirection("index.php"); // code invalid
 	}
-$place_manager = new PlaceManager($bdd);
+$places_manager = new PlacesManager($bdd);
 
 // Breadcrumbs
 $bc = new Breadcrumb($bdd, "places", $country_id, $action);
@@ -40,14 +40,14 @@ switch($action) {
 		break;
 	
 	case "edit" :
-		$smarty->assign("place", $place_manager->getPlace($id));
+		$smarty->assign("place", $places_manager->getPlace($id));
 		$smarty->assign("content","places/edit.tpl.html");
 		$smarty->display("main.tpl.html");
 		break;
 
 	case "save" :
 		$data = array("id" => $id, "country_id" => $country_id, "gps_coord" => $gps_coord, "name" => $name, "description" => $description);
-		$place_manager->savePlace(new Place($data));
+		$places_manager->savePlace(new Place($data));
 		$log->alert($translate->__('the_place_has_been_saved'));
 		Utils::redirection("places.php?country_id=".$country_id);
 		break;
@@ -55,7 +55,7 @@ switch($action) {
 	case "pdf" :
 		// get the HTML
 		ob_start();
-		$place = $place_manager->getPlace($id, true);
+		$place = $places_manager->getPlace($id, true);
 		$activities_manager = new ActivitiesManager($bdd);
 		$smarty->assign("place", $place);
 		$smarty->assign("activities", $activities_manager->getActivities($place->getId()));
@@ -79,8 +79,8 @@ switch($action) {
 
 	case "delete" :
 		if ($user->getProfil() >= ADMIN) {
-			$place = $place_manager->getPlace($id);
-			if ($place_manager->deletePlace($place)) {
+			$place = $places_manager->getPlace($id);
+			if ($places_manager->deletePlace($place)) {
 				$log->alert($translate->__('the_place_has_been_deleted'));
 			}
 		}
@@ -92,10 +92,10 @@ switch($action) {
 		$rpp = 20;
 		$smarty->assign("titre", $translate->__('list_of_places'));
 		if (empty($page)) $page = 1; // default page
-		$smarty->assign("allPlaces", $place_manager->getPlaces($country_id)); // for map
-		$smarty->assign("places", $place_manager->getPlacesByPage($country_id, $page, $rpp));
+		$smarty->assign("allPlaces", $places_manager->getPlaces($country_id)); // for map
+		$smarty->assign("places", $places_manager->getPlacesByPage($country_id, $page, $rpp));
 
-		$pagination = new Pagination($page, $place_manager->getMaxPlaces($country_id), $rpp); // pagination
+		$pagination = new Pagination($page, $places_manager->getMaxPlaces($country_id), $rpp); // pagination
 		$smarty->assign("country_id", $country_id);
 		$smarty->assign("btn_infos", $pagination->getNavigation());
 		$smarty->assign("content", "places/list.tpl.html");

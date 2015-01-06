@@ -14,8 +14,8 @@ $id				= Utils::get_input('id','both');
 $code			= Utils::get_input('code','both');
 $items			= Utils::get_input('items','both');
 
-$continents_manager = new ContinentManager($bdd);
-$places_manager = new PlaceManager($bdd);
+$continents_manager = new ContinentsManager($bdd);
+$places_manager = new PlacesManager($bdd);
 
 // convert world map click
 //$valid_codes = array("cl" => 22, "bo" => 21, "pe" => 20, "us" => 31, "nz" => 30, "au" => 11);

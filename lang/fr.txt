@@ -41,9 +41,10 @@ post = article
 posts = articles
 type = type
 types = types
-important = Bon à savoir
 map = carte
-expiration = expiration
+file = fichier
+gps_file = fichier GPS
+browse = selectionner
 
 # fields
 name = nom
@@ -65,8 +66,7 @@ text = texte
 description = description
 flag = drapeau
 key = clef
-gps_track = Trace GPS
-
+GPS_track = trace GPS
 #messages
 empty_list = La liste est vide !
 do_you_really_want_to = Voulez-vous vraiment
@@ -86,10 +86,6 @@ the_post_has_been_saved = L'article a été sauvegardé.
 the_post_has_been_deleted = L'article a été effacé !
 the_user_has_been_saved = L'utilisateur a été sauvegardé.
 the_user_has_been_deleted = L'utilisateur a été effacé !
-the_post_has_been_saved = L'article a été sauvegardé.
-the_post_has_been_deleted = L'article a été effacé !
-you_are_not_allowed_to_do_this_action = vous n'êtes pas autorisé à faire cette action !
-save_to_pdf = Enregistrer en PDF
 
 # buttons
 edit = modifier
@@ -97,7 +93,7 @@ delete = effacer
 save = enregistrer
 exit = quitter
 connection = connexion
-cancel = annuler
+close = fermer
 
 # misc
 list = liste

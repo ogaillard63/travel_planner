@@ -11,7 +11,7 @@ $action			= Utils::get_input('action','both');
 
 switch($action) {
     case "sort_places" :
-        $places_manager = new PlaceManager($bdd);
+        $places_manager = new PlacesManager($bdd);
         $places_manager->updatePositions($_POST['position']);
         echo "ok";
         break;

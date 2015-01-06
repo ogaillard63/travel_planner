@@ -15,7 +15,7 @@ $id				= Utils::get_input('id','both');
 $name			= Utils::get_input('name','post');
 $key			= Utils::get_input('key','post');
 
-$types_manager = new TypeManager($bdd);
+$types_manager = new TypesManager($bdd);
 
 switch($action) {
 	
