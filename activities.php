@@ -1,10 +1,10 @@
 <?php
 /**
-* @project		
-* @author		Olivier Gaillard
-* @version		1.0 du 29/11/2014
-* @desc			Controleur des objets : activities
-*/
+ * @project
+ * @author		Olivier Gaillard
+ * @version		1.0 du 29/11/2014
+ * @desc			Controleur des objets : activities
+ */
 
 require_once( "inc/prepend.php" );
 $user->isLoggedIn(); // Espace privé
@@ -14,6 +14,7 @@ $action			= Utils::get_input('action','both');
 $id				= Utils::get_input('id','both');
 $place_id		= Utils::get_input('place_id','both');
 $type_id		= Utils::get_input('type_id','post');
+$file_path		= Utils::get_input('file_path','post');
 $name			= Utils::get_input('name','post');
 $description	= Utils::get_input('description','post');
 
@@ -24,7 +25,7 @@ $activities_manager = new ActivitiesManager($bdd);
 $bc = new Breadcrumb($bdd, "activities", $place_id, $action);
 $smarty->assign("breadcrumbs", $bc->getCrumbs());
 switch($action) {
-	
+
 	case "add" :
 		$smarty->assign("activity", new Activity(array("id" => -1, "place_id" => $place_id)));
 		$type_manager = new TypesManager($bdd);
@@ -32,7 +33,7 @@ switch($action) {
 		$smarty->assign("content", "activities/edit.tpl.html");
 		$smarty->display("main.tpl.html");
 		break;
-	
+
 	case "edit" :
 		$smarty->assign("activity", $activities_manager->getActivity($id));
 		$type_manager = new TypesManager($bdd);
