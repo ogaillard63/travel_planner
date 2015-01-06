@@ -1,10 +1,10 @@
 <?php
 /**
-* @project		
-* @author		Olivier Gaillard
-* @version		1.0 du 29/11/2014
-* @desc			Objet activity
-*/
+ * @project
+ * @author		Olivier Gaillard
+ * @version		1.0 du 29/11/2014
+ * @desc			Objet activity
+ */
 
 class Activity {
 	public $id;
@@ -12,8 +12,10 @@ class Activity {
 	public $place;
 	public $type_id;
 	public $type;
+	public $file_path;
 	public $name;
 	public $description;
+	public $position;
 
 	public function __construct(array $data) {
 		$this->hydrate($data);
@@ -71,6 +73,13 @@ class Activity {
 	public function getType() {
 		return $this->type;
 	}
+	// file_path
+	public function setFilePath($file_path) {
+		$this->file_path = $file_path;
+	}
+	public function getFilePath() {
+		return $this->file_path;
+	}
 	// name
 	public function setName($name) {
 		$this->name = $name;
@@ -84,6 +93,13 @@ class Activity {
 	}
 	public function getDescription() {
 		return $this->description;
+	}
+	// position
+	public function setPosition($position) {
+		$this->position = $position;
+	}
+	public function getPosition() {
+		return $this->position;
 	}
 }
 ?>

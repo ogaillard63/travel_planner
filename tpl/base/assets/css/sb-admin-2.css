@@ -9,7 +9,7 @@ body {
 }
 
 h1, .h1 {
-font-size: 20px;
+    font-size: 20px;
 }
 
 #wrapper {
@@ -31,7 +31,7 @@ font-size: 20px;
     }
 }
 .navbar-brand {
-	padding: 0 10px;
+    padding: 0 10px;
 }
 .navbar-top-links {
     margin-right: 0;
@@ -142,11 +142,11 @@ font-size: 20px;
         margin-top: 51px;
     }
 
-/*    .navbar-top-links .dropdown-messages,
-    .navbar-top-links .dropdown-tasks,
-    .navbar-top-links .dropdown-alerts {
-        margin-left: auto;
-    }*/
+    /*    .navbar-top-links .dropdown-messages,
+        .navbar-top-links .dropdown-tasks,
+        .navbar-top-links .dropdown-alerts {
+            margin-left: auto;
+        }*/
 }
 
 .btn-outline {
@@ -358,85 +358,85 @@ table.dataTable thead .sorting:after {
 /* -- modifs du theme -- */
 
 a {
-	color: #845664;
+    color: #845664;
     font-weight: 700;
-	text-decoration:none
+    text-decoration:none
 }
 
 a.btn, .nav>li>a, a.close {
     font-weight: normal;
-	text-decoration: none
+    text-decoration: none
 }
 a:hover, a:focus {
     text-decoration: none;
 }
 .container-fluid {
-	padding-bottom: 15px;
-	padding-right: 10px;
-	padding-left: 10px;
+    padding-bottom: 15px;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .page-header {
-	padding-bottom: 5px;
-	margin: 0;
-	border: none;
-	text-align: center;
+    padding-bottom: 5px;
+    margin: 0;
+    border: none;
+    text-align: center;
 }
 .breadcrumb {
-	margin-top: 10px;
-	margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 #map-canvas {
-  	width: 100%; 
-  	height: 800px;
-	margin: 0;
-	padding: 15px;
+    width: 100%;
+    height: 800px;
+    margin: 0;
+    padding: 15px;
 }
 
 .pagination {
-  display: block;
-  /*width: 232px;*/
-  margin: 0 auto;
-  background: #ccc;
+    display: block;
+    /*width: 232px;*/
+    margin: 0 auto;
+    background: #ccc;
 }
 
 .alert {
-	position: absolute;
-	z-index: 999999;
-	min-width: 250px;
-	top: 10px;
-	right: 10px;
+    position: absolute;
+    z-index: 999999;
+    min-width: 250px;
+    top: 10px;
+    right: 10px;
 }
 
 /* -- cache la sidebar -- */
- #page-wrapper {
-	margin: 0;
+#page-wrapper {
+    margin: 0;
 }
 #side-menu {
-	display: none;
+    display: none;
 }
 
 /* -- map -- */
 #map-canvas {
-	width:100%;
+    width:100%;
     height:calc(100% - 0);
     overflow:hidden;
 }
 /* -- panels -- */
 .panel {
-	margin-bottom: 10px;
-	border-radius: 0;
+    margin-bottom: 10px;
+    border-radius: 0;
 }
 .panel-body {
-	padding: 5px;
+    padding: 5px;
 }
 /* -- tables -- */
 .table>thead>tr>th {
-	padding: 6px;
-	border-bottom: 4px solid #CCC;
+    padding: 6px;
+    border-bottom: 4px solid #CCC;
 }
 .table {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 .table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td {
     padding: 6px;
@@ -464,9 +464,35 @@ a:hover, a:focus {
     margin-left: 4px;
     margin-bottom: 6px;
 }
+.tableSortable tr, .ui-sortable-helper {
+    cursor: move;
+}
+/* -- upload file -- */
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    background: red;
+    cursor: inherit;
+    display: block;
+}
+input[readonly] {
+    background-color: white !important;
+    cursor: text !important;
+}
 /* -- debug -- */
 #map-wrapper {
-	margin: 0;
+    margin: 0;
 }
 #map-wrapper {
     padding: 0 15px;
@@ -475,8 +501,8 @@ a:hover, a:focus {
 }
 
 #map-wrapper {
-	position: inherit;
-	margin: 0 0 0 500px;
-	padding: 0 10px;
-	border-left: 1px solid #e7e7e7;
+    position: inherit;
+    margin: 0 0 0 500px;
+    padding: 0 10px;
+    border-left: 1px solid #e7e7e7;
 }
