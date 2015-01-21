@@ -425,7 +425,7 @@ a:hover, a:focus {
 /* -- panels -- */
 .panel {
     margin-bottom: 10px;
-    border-radius: 0;
+    border-radius: 4px;
 }
 .panel-body {
     padding: 5px;

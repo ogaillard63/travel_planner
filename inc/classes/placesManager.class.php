@@ -143,16 +143,17 @@ class PlacesManager {
 	 */
 	public function savePlace(Place $place) {
 		if ($place->getId() == -1) {
-			$q = $this->bdd->prepare('INSERT INTO places SET country_id = :country_id, gps_coord = :gps_coord, name = :name, description = :description, position = :position');
+			$q = $this->bdd->prepare('INSERT INTO places SET country_id = :country_id, gps_coord = :gps_coord, name = :name, description = :description, photo = :photo, position = :position');
 			$q->bindValue(':position', $this->getMaxPosition($place->getCountryId())+1, PDO::PARAM_STR);
 		} else {
-			$q = $this->bdd->prepare('UPDATE places SET country_id = :country_id, gps_coord = :gps_coord, name = :name, description = :description WHERE id = :id');
+			$q = $this->bdd->prepare('UPDATE places SET country_id = :country_id, gps_coord = :gps_coord, name = :name, description = :description, photo = :photo WHERE id = :id');
 			$q->bindValue(':id', $place->getId(), PDO::PARAM_INT);
 		}
 		$q->bindValue(':country_id', $place->getCountryId(), PDO::PARAM_STR);
 		$q->bindValue(':gps_coord', $place->getGpsCoord(), PDO::PARAM_STR);
 		$q->bindValue(':name', $place->getName(), PDO::PARAM_STR);
 		$q->bindValue(':description', $place->getDescription(), PDO::PARAM_STR);
+		$q->bindValue(':photo', $place->getPhoto(), PDO::PARAM_STR);
 		$q->execute();
 		if ($place->getId() == -1) $place->setId($this->bdd->lastInsertId());
 	}

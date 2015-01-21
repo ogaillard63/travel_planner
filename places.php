@@ -18,6 +18,8 @@ $country_id			= Utils::get_input('country_id','both');
 $gps_coord			= Utils::get_input('gps_coord','post');
 $name				= Utils::get_input('name','post');
 $description		= Utils::get_input('description','post');
+$photo				= Utils::get_input('photo','post');
+$old_photo			= Utils::get_input('old_photo','post');
 
 // convert world map click code
 $valid_codes = array("cl" => 22, "bo" => 21, "pe" => 20, "us" => 31, "ca" => 34, "nz" => 30, "au" => 11);
@@ -46,7 +48,20 @@ switch($action) {
 		break;
 
 	case "save" :
-		$data = array("id" => $id, "country_id" => $country_id, "gps_coord" => $gps_coord, "name" => $name, "description" => $description);
+		$tmpUploadDir = 'tmp/photos/upload';
+		$dstDir = 'res/photos/places';
+		if ($old_photo != $photo) {
+			$fileName = basename($photo);
+			if (copy($photo, $dstDir."/".$fileName)) {
+				unlink($photo); // supprime la photo recadrée temporaire
+				if (!empty($old_photo) && is_file($old_photo)) unlink($old_photo); // supprime l'ancienne photo
+				if (is_file($tmpUploadDir."/".$fileName)) unlink($tmpUploadDir."/".$fileName); // supprime la photo uploadée
+				$photo = $dstDir."/".$fileName; // nouveau path de la photo
+				}
+			else $log->alert("Failed to copy to ".$dstDir."/".$fileName);
+		}
+
+		$data = array("id" => $id, "country_id" => $country_id, "gps_coord" => $gps_coord, "name" => $name, "description" => $description, "photo" => $photo);
 		$places_manager->savePlace(new Place($data));
 		$log->alert($translate->__('the_place_has_been_saved'));
 		Utils::redirection("places.php?country_id=".$country_id);

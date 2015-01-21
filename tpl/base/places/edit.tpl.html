@@ -1,17 +1,15 @@
-<div class="row">
+<div class="row" id="crop-photo">
 	<div class="col-lg-12" id="left">
 		<div class="panel panel-default">
 			<div class="panel-heading">{if $place->id > -1}{#edit_a_place#|ucfirst}{else}{#add_a_place#|ucfirst}{/if}
 			</div>
-			<div class="panel-body">	
+			<div class="panel-body">
 				<form name="form_param" method="post" action="places.php">
 					<input name="country_id" type="hidden" value="{$place->country_id}" />
 					<input name="id" type="hidden" value="{$place->id}" />
+					<input name="old_photo" type="hidden" value="{$place->photo}" />
+					<input class="photo-path" name="photo" type="hidden" value="{$place->photo}" />
 					<input name="action" type="hidden" value="save" />
-					<!-- <div class="form-group">
-						<label>{#country#|ucfirst}</label>
-						{if isset($place->country_id)}{html_options name=country_id options=$countries selected=$place->country_id class="form-control"}{else}{html_options name=country_id options=$countries class="form-control"}{/if}
-					</div>-->
 					<div class="row">
 						<div class="col-lg-8">
 							<div class="form-group">
@@ -28,7 +26,16 @@
 							</div>
 						</div>
 						<div class="col-lg-4">
-							<div id="map-canvas" style="height: 400px;"></div>
+							<div class="form-group">
+								<label>{#photo#|ucfirst}</label>
+								<div class="photo-view" title="Change the photo">
+									<img src="{if !empty($place->photo)}{$place->photo}{else}{$tpl}/assets/plugins/crop/img/nopic_400x300.jpg{/if}" alt="No Photo" width="100%">
+								</div>
+							</div>
+							<div class="form-group">
+								<label>{#map#|ucfirst}</label>
+								<div id="map-canvas" style="height: 260px;"></div>
+							</div>
 						</div>
 					</div>
 
@@ -40,19 +47,62 @@
 			</div>
 			<script>
 			  $('#editor').wysihtml5({
-					"font-styles": false, "emphasis": true, "lists": false, "html": true, "link": false, "image": false, "color": false, "blockquote": false 
+					"font-styles": false, "emphasis": true, "lists": false, "html": true, "link": false, "image": false, "color": false, "blockquote": false
 				});
 			</script>
 		</div>
 	</div>
-</div>
-<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places" type="text/javascript"></script>
+	<!-- Cropping modal -->
+	<div class="modal fade" id="photo-modal" aria-hidden="true" aria-labelledby="photo-modal-label" role="dialog" tabindex="-1">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<form class="photo-form" action="ajax.php" enctype="multipart/form-data" method="post">
+					<input name="action" type="hidden" value="crop_photo_place">
+					<div class="modal-header">
+						<button class="close" data-dismiss="modal" type="button">&times;</button>
+						<h4 class="modal-title" id="photo-modal-label">Ajouter une photo</h4>
+					</div>
+					<div class="modal-body">
+						<div class="photo-body">
 
+							<!-- Upload image and data -->
+							<div class="photo-upload">
+								<input class="photo-src" name="photo_src" type="hidden">
+								<input class="photo-data" name="photo_data" type="hidden">
+								<label for="photoInput">Local upload</label>
+								<input class="photo-input" id="photoInput" name="photo_file" type="file">
+							</div>
+
+							<!-- Crop and preview -->
+							<div class="row">
+								<div class="col-md-12">
+									<div class="photo-wrapper"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+						<button class="btn btn-primary photo-save" type="submit">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div><!-- /.modal -->
+
+	<!-- Loading state -->
+	<div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+</div>
+<link href="{$tpl}/assets/plugins/crop/css/cropper.min.css" rel="stylesheet">
+<link href="{$tpl}/assets/plugins/crop/css/crop-photo.css" rel="stylesheet">
+<script src="{$tpl}/assets/plugins/crop/js/cropper.min.js"></script>
+<script src="{$tpl}/assets/plugins/crop/js/crop-photo.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places" type="text/javascript"></script>
 <script type="text/javascript">
 	var mapCanvas = document.getElementById('map-canvas');
 	function initialize() {
 		var mapOptions = {
-			center: new google.maps.LatLng(-33.8688, 151.2195),
+			center: new google.maps.LatLng({if (isset($place->gps_coord))}{$place->gps_coord}{else}45.778079, 3.081666{/if}),
 			zoom: 13,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};

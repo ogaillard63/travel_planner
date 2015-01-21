@@ -6,8 +6,8 @@ require_once( "inc/prepend.php" );
 //$smarty->assign("breadcrumbs", $bc->getCrumbs());
 
 		$smarty->assign("titre", "test");
-		$smarty->assign("content", "test/map.tpl.html");
-		$smarty->display("main_map.tpl.html");
+		$smarty->assign("content", "test/upload.tpl.html");
+		$smarty->display("main.tpl.html");
 		
 require_once( "inc/append.php" );
 ?>

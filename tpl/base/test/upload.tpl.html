@@ -1,0 +1,52 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="container_form clearfix">
+				<div class="panel panel-default">
+					<div class="panel-heading">Sign up</div>
+					<div class="panel-body">
+						<form role="form" method="post">
+							<div class="form-group">
+								<label for="name">Name</label>
+								<input type="text" class="form-control" id="name" placeholder="Enter name" required="">
+							</div>
+
+							<div class="form-group">
+								<label for="email">E-mail</label>
+								<input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required="">
+							</div>
+
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required="">
+							</div>
+
+							<div class="form-group">
+								<label>Image</label>
+								<div id="container_photo" class="picture-element-principal" style="border: 1px solid rgb(204, 204, 204); width: 200px; height: 150px; position: relative; cursor: pointer; overflow: hidden;"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" class="picture-element-image" style="position: relative; cursor: pointer; height: 150px;"><input type="hidden" name="image" id="image" class="picture-element-image-directory"><form method="POST" enctype="multipart/form-data" action="/jquery.picture.cut/src/php/upload.php"> <input name="file-image" type="file" accept="image/*" title="Choose a picture" style="display: block; position: absolute; left: 0px; top: 0px; width: 198px; height: 148px; font-size: 100pt; opacity: 0; z-index: 10; overflow: hidden;"></form></div>
+							</div>
+							<br>
+							<button type="submit" class="btn btn-default">Register</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="/travel_planner/{$tpl}/assets/plugins/pictureCut/js/jquery.picture.cut.js" type="text/javascript"></script>
+<script>
+	$(document).ready(function(){
+
+		$("#container_photo").PictureCut({
+			InputOfImageDirectory       : "image",
+			PluginFolderOnServer        : "/travel_planner/{$tpl}/assets/plugins/pictureCut/",
+			FolderOnServer              : "/travel_planner/uploads/",
+			EnableCrop                  : true,
+			EnableButton               	: false,
+			CropWindowStyle             : "Bootstrap",
+			CropModes					: {	widescreen: false, letterbox: true,	free   : false },
+			CropOrientation				: false
+		});
+	})
+</script>
