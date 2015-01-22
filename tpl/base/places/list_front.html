@@ -1,0 +1,14 @@
+{foreach from=$places item=place name=place}
+{if $smarty.foreach.place.index%4 == 0}<div class="row">{/if}
+	<div class="col-lg-3">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<a href="activities.php?place_id={$place->id}"><img src="{if !empty($place->photo)}{$place->photo}{else}{$tpl}/assets/plugins/crop/img/nopic_400x300.jpg{/if}" alt="No Photo" width="100%"></a>
+			</div>
+			<div class="panel-footer">
+				<a href="activities.php?place_id={$place->id}">{$place->name}</a>
+			</div>
+		</div>
+	</div>
+{if $smarty.foreach.place.index%4 == 3}</div>{/if}
+{foreachelse}<h4>{#empty_list#}</h4>{/foreach}

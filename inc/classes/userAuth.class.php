@@ -143,12 +143,20 @@ class UserAuth extends User {
 	/**
 	 * Vérifie si l'user est connecté
 	 **/
-	function isLoggedIn() {
+	/*function isLoggedIn() {
 		// verify if user is already logged in
 		if (!$this->verifySession()) {
 			$this->redirect(self::LOGIN_PAGE);
 		}
+	}*/
+
+	function isLoggedIn() {
+		if ($this->verifySession()) {
+			return true;
+		}
+		return false;
 	}
+
 
 	/**
 	 * @desc 	Retourne le profil de l'user

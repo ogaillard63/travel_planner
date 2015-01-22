@@ -17,12 +17,17 @@ class ActivitiesManager {
 	* Retourne l'objet activity correspondant à l'Id
 	* @param $id
 	*/
-	public function getActivity($id) {
+	public function getActivity($id, $isEagerFetch = false) {
 	if ($id) {
 		$q = $this->bdd->prepare("SELECT * FROM activities WHERE id = :id");
 		$q->bindValue(':id', $id, PDO::PARAM_INT);
 		$q->execute();
-		return new Activity($q->fetch(PDO::FETCH_ASSOC));
+		$activity = new Activity($q->fetch(PDO::FETCH_ASSOC));
+		if ($isEagerFetch) {
+			$types_manager = new TypesManager($this->bdd);
+			$activity->setType($types_manager->getType($activity->getTypeId()));
+		}
+		return $activity;
 		}
 	}
 
