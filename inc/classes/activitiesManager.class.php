@@ -124,15 +124,16 @@ class ActivitiesManager {
 	*/
 	public function saveActivity(Activity $activity) {
 		if ($activity->getId() == -1) {
-			$q = $this->bdd->prepare('INSERT INTO activities SET place_id = :place_id, type_id = :type_id, name = :name, description = :description');
+			$q = $this->bdd->prepare('INSERT INTO activities SET place_id = :place_id, type_id = :type_id, name = :name, file_path = :file_path, description = :description');
 		} else {
-			$q = $this->bdd->prepare('UPDATE activities SET place_id = :place_id, type_id = :type_id, name = :name, description = :description WHERE id = :id');
+			$q = $this->bdd->prepare('UPDATE activities SET place_id = :place_id, type_id = :type_id, name = :name, file_path = :file_path, description = :description WHERE id = :id');
 			$q->bindValue(':id', $activity->getId(), PDO::PARAM_INT);
 		}
 		$q->bindValue(':place_id', $activity->getPlaceId(), PDO::PARAM_INT);
 		$q->bindValue(':type_id', $activity->getTypeId(), PDO::PARAM_INT);
 		$q->bindValue(':name', $activity->getName(), PDO::PARAM_STR);
-		$q->bindValue(':description', $activity->getDescription(), PDO::PARAM_STR);	
+		$q->bindValue(':file_path', $activity->getFilePath(), PDO::PARAM_STR);
+		$q->bindValue(':description', $activity->getDescription(), PDO::PARAM_STR);
 		$q->execute();
 		if ($activity->getId() == -1) $activity->setId($this->bdd->lastInsertId());
 	}

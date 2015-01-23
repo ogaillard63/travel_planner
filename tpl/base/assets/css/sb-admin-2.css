@@ -506,3 +506,8 @@ input[readonly] {
     padding: 0 10px;
     border-left: 1px solid #e7e7e7;
 }
+.help {
+    font-size: 10px;
+    font-style: italic;
+    color: gray;
+}

@@ -39,7 +39,10 @@ if ($user->isLoggedIn() ) { // BO
 			break;
 
 		case "save" :
-			$data = array("id" => $id, "place_id" => $place_id, "type_id" => $type_id, "name" => $name, "description" => $description);
+			$file_gps = new UploadFile($_FILES['gps_file'], 'res/files/gps', array("gpx"));
+			$result_upload = $file_gps->upload();
+			// $log->alert($result_upload['error']);
+			$data = array("id" => $id, "place_id" => $place_id, "type_id" => $type_id, "name" => $name, "file_path" => $result_upload["file_path"], "description" => $description);
 			$activities_manager->saveActivity(new Activity($data));
 			$log->alert($translate->__('the_activity_has_been_saved'));
 			Utils::redirection("activities.php?place_id=".$place_id);
