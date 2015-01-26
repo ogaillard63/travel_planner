@@ -19,6 +19,10 @@ $description 	= Utils::get_input('description', 'post');
 $photo 			= Utils::get_input('photo', 'post');
 $old_photo 		= Utils::get_input('old_photo', 'post');
 
+$tmpUploadDir 	= 'tmp/photos/upload';
+$dstDir 		= 'res/photos/places';
+
+
 $places_manager = new PlacesManager($bdd);
 
 // Breadcrumbs
@@ -41,8 +45,6 @@ if ($user->isLoggedIn() ) { // BO
 			break;
 
 		case "save" :
-			$tmpUploadDir = 'tmp/photos/upload';
-			$dstDir = 'res/photos/places';
 			if ($old_photo != $photo) {
 				$fileName = basename($photo);
 				if (copy($photo, $dstDir . "/" . $fileName)) {
@@ -85,6 +87,8 @@ if ($user->isLoggedIn() ) { // BO
 		case "delete" :
 			if ($user->getProfil() >= ADMIN) {
 				$place = $places_manager->getPlace($id);
+				// Supprime une eventuelle photo
+				if (is_file($dstDir . "/" . $fileName)) unlink($dstDir . "/" . $fileName); // supprime la photo
 				if ($places_manager->deletePlace($place)) {
 					$log->alert($translate->__('the_place_has_been_deleted'));
 				}
