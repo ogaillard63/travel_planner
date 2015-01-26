@@ -16,7 +16,7 @@ class UserAuth extends User {
 	
 	const MEMBER_PAGE			= "index.php";
 	const LOGIN_PAGE			= "identification.php";
-	const LOGOUT_PAGE 			= "identification.php";
+	const LOGOUT_PAGE 			= "index.php";
 	const MSG_ERROR_FORM		= "Merci de compléter le formulaire";
 	const MSG_SESSION_EXPIRED	= "Désolé, votre session a expirée !";
 	const MSG_ERROR_USER 		= "Identifiant et/ou mot de passe incorrect !";

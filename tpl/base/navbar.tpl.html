@@ -16,6 +16,7 @@
 </div>
 <!-- /.navbar-header -->
 <ul class="nav navbar-top-links navbar-right">
+  {if !isset($session.name)}<li><a href="identification.php">Se connecter</a></li>{else}
   <!-- /.dropdown -->
   <li class="dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
@@ -51,7 +52,7 @@
       </li>
     </ul>
     <!-- /.dropdown-user -->
-  </li>
+  </li>{/if}
   <!-- /.dropdown -->
 </ul>
 <!-- /.navbar-top-links -->

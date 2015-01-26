@@ -60,7 +60,7 @@ $log = new Logger($bdd, $smarty, $session);
 
 // Authentification
 $user = new UserAuth($bdd);
-
+//var_dump($_SESSION);
 // Profils
 define('SUPER_ADMIN', 		300);
 define('ADMIN', 			200);
@@ -72,7 +72,9 @@ if(isset($_GET['cnt'])) {
 	if (in_array($_GET['cnt'], array('fr','en')))
 	$_SESSION['filePathLang'] = PATH_LANG.'/'.$_GET['cnt'].".txt";
 	}
-$translate = new Translator($_SESSION['filePathLang']); 
+$translate = new Translator($_SESSION['filePathLang']);
+
+$smarty->assign("session", $_SESSION);
 
 // Gestion des notifications
 if ($alert = $session->getValue("alert")) {
