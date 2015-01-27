@@ -1,15 +1,15 @@
 <div class="row">
-	<div class="col-lg-4">
+	<div class="col-lg-3 col-xs-4">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				<img src="{if !empty($place->photo)}{$place->photo}{else}{$tpl}/assets/plugins/crop/img/nopic_400x300.jpg{/if}" alt="No Photo" width="100%">
 			</div>
-			<div class="panel-footer">
+			<div class="panel-footer" style="max-height: 450px;overflow-y: scroll;">
 				{$place->description}
 			</div>
 		</div>
 	</div>
-	<div class="col-lg-8">
+	<div class="col-lg-9 col-xs-8">
 			<h4>{#list#|ucfirst} {#of_#} {#activities#}</h4>
 		<div class="panel panel-default">
 			<div class="panel-body">

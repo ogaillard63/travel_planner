@@ -1,14 +1,106 @@
-{foreach from=$places item=place name=place}
-{if $smarty.foreach.place.index%4 == 0}<div class="row">{/if}
-	<div class="col-lg-3">
+<style>
+	.fa-map-marker:hover {
+		cursor: pointer;
+	}
+</style>
+<div class="row">
+	<div class="col-lg-8">
+	{foreach from=$places item=place name=place}
+	{if $smarty.foreach.place.index%4 == 0}<div class="row">{/if}
+		<div class="col-lg-3">
+			<div class="panel panel-default place_panel">
+				<div class="panel-body">
+					<a href="activities.php?place_id={$place->id}"><img src="{if !empty($place->photo)}{$place->photo}{else}{$tpl}/assets/plugins/crop/img/nopic_400x300.jpg{/if}" alt="No Photo" width="100%"></a>
+				</div>
+				<div class="panel-footer">
+					<a href="activities.php?place_id={$place->id}">{$place->name}</a>
+					<div class="pull-right"><i class="fa fa-map-marker" data-place="{$place->id}"></i></div>
+				</div>
+			</div>
+		</div>
+	{if $smarty.foreach.place.index%4 == 3}</div>{/if}
+	{foreachelse}<h4>{#empty_list#}</h4>{/foreach}
+	{if $smarty.foreach.place.total%4 !=0}</div>{/if}
+	</div>
+	<div class="col-lg-4">
 		<div class="panel panel-default">
 			<div class="panel-body">
-				<a href="activities.php?place_id={$place->id}"><img src="{if !empty($place->photo)}{$place->photo}{else}{$tpl}/assets/plugins/crop/img/nopic_400x300.jpg{/if}" alt="No Photo" width="100%"></a>
-			</div>
-			<div class="panel-footer">
-				<a href="activities.php?place_id={$place->id}">{$place->name}</a>
+				{if $places}<div id="map-canvas" style="height: 600px;"></div>{/if}
 			</div>
 		</div>
 	</div>
-{if $smarty.foreach.place.index%4 == 3}</div>{/if}
-{foreachelse}<h4>{#empty_list#}</h4>{/foreach}
+</div>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+<script type="text/javascript">
+	var star_marker = "{$tpl}/assets/css/img/star.png";
+	var icon_marker = "{$tpl}/assets/css/img/pin-marker.png";
+	var markers = [];
+	var iterator = 0;
+	var places = [];
+
+	{foreach from=$places item=place}
+	{literal}places.push({{/literal}coord: new google.maps.LatLng({$place->gps_coord}), id: {$place->id}, name: "{$place->name}"{literal}});{/literal}
+	{/foreach}
+
+	var nbMarkers = places.length;
+	var mapCanvas = document.getElementById('map-canvas');
+	var map;
+	var bounds;
+	var lastZoomMarkerId = null;
+	var maxZoomIn = 10;
+
+	function initialize() {
+		var mapOptions = {
+			mapTypeId: google.maps.MapTypeId.TERRAIN,
+			panControl: false,
+			zoomControl: false,
+			scaleControl: true
+		};
+
+		map = new google.maps.Map(mapCanvas,  mapOptions);
+		bounds = new google.maps.LatLngBounds();
+		for (var i = 0; i < nbMarkers; i++) {
+			bounds.extend(places[i].coord);
+			addMarker();
+
+		}
+
+		var markerCluster = new MarkerClusterer(map, markers);
+		map.fitBounds(bounds);
+	}
+
+	function addMarker() {
+		markers.push(new google.maps.Marker({
+			position: places[iterator].coord,
+			locid: places[iterator].id,
+			icon: icon_marker,
+			title : places[iterator].name,
+			draggable: false,
+			animation: google.maps.Animation.DROP
+		}));
+		//markers[iterator].setMap(map);
+		iterator++;
+	}
+
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+	$(document).on("click","i.fa-map-marker",function() {
+		var placeId = $(this).data("place");
+		for(var i=0; i<markers.length; i++) {
+			if(markers[i].locid == placeId) {
+				if (lastZoomMarkerId == placeId) {
+					map.fitBounds(bounds);
+					lastZoomMarkerId = null;
+					}
+				else {
+					map.panTo(markers[i].getPosition());
+					map.setZoom(maxZoomIn);
+					lastZoomMarkerId = placeId;
+				}
+
+			}
+		}
+	});
+
+</script>
