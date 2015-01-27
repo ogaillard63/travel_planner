@@ -13,8 +13,14 @@
 					<a href="activities.php?place_id={$place->id}"><img src="{if !empty($place->photo)}{$place->photo}{else}{$tpl}/assets/plugins/crop/img/nopic_400x300.jpg{/if}" alt="No Photo" width="100%"></a>
 				</div>
 				<div class="panel-footer">
-					<a href="activities.php?place_id={$place->id}">{$place->name}</a>
-					<div class="pull-right"><i class="fa fa-map-marker" data-place="{$place->id}"></i></div>
+					<div class="row">
+						<div class="col-lg-10">
+							<a href="activities.php?place_id={$place->id}">{$place->name}</a>
+						</div>
+						<div class="col-lg-2">
+							<i class="fa fa-map-marker" data-place="{$place->id}"></i>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
