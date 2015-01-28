@@ -4,20 +4,20 @@
 	}
 </style>
 <div class="row">
-	<div class="col-lg-8">
+	<div class="col-lg-8 col-xs-8">
 	{foreach from=$places item=place name=place}
 	{if $smarty.foreach.place.index%4 == 0}<div class="row">{/if}
-		<div class="col-lg-3">
+		<div class="col-lg-3 col-xs-3">
 			<div class="panel panel-default place_panel">
 				<div class="panel-body">
 					<a href="activities.php?place_id={$place->id}"><img src="{if !empty($place->photo)}{$place->photo}{else}{$tpl}/assets/plugins/crop/img/nopic_400x300.jpg{/if}" alt="No Photo" width="100%"></a>
 				</div>
 				<div class="panel-footer">
 					<div class="row">
-						<div class="col-lg-10">
+						<div class="col-lg-10 col-xs-10">
 							<a href="activities.php?place_id={$place->id}">{$place->name}</a>
 						</div>
-						<div class="col-lg-2">
+						<div class="col-lg-2 col-xs-2">
 							<i class="fa fa-map-marker" data-place="{$place->id}"></i>
 						</div>
 					</div>
@@ -28,7 +28,7 @@
 	{foreachelse}<h4>{#empty_list#}</h4>{/foreach}
 	{if $smarty.foreach.place.total%4 !=0}</div>{/if}
 	</div>
-	<div class="col-lg-4">
+	<div class="col-lg-4 col-xs-4">
 		<div class="panel panel-default">
 			<div class="panel-body">
 				{if $places}<div id="map-canvas" style="height: 600px;"></div>{/if}
