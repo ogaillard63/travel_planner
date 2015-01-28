@@ -74,6 +74,7 @@ class Breadcrumb {
 			break;
 
 			case "routes" :
+			case "stages" :
 			case "places" :
 				$manager = new CountriesManager($this->bdd);
 				$country = $manager->getCountry($this->id);

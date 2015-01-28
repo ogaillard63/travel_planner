@@ -8,6 +8,7 @@
 require_once("inc/prepend.php");
 
 $action			= Utils::get_input('action','both');
+$id			    = Utils::get_input('id','both');
 
 switch($action) {
 
@@ -27,12 +28,24 @@ switch($action) {
         $places_manager->updatePositions($_POST['position']);
         echo "ok";
         break;
-	default:
+
     case "sort_activities" :
         $activities_manager = new ActivitiesManager($bdd);
         $activities_manager->updatePositions($_POST['position']);
         echo "ok";
         break;
+
+    case "get_activities" :
+        $html = "";
+        $activities_manager = new ActivitiesManager($bdd);
+        $activities = $activities_manager->getActivities($id, true);
+
+        foreach ($activities as $activity) {
+            $html .= "<input type='checkbox' name= 'activities[]' value='" .$activity->id. "'><span>" .$activity->type->name . " | " . $activity->name . " (" . $activity->duration . " J)</span><br/>\n";
+        }
+        echo $html;
+        break;
+
     default:
 }
 ?>

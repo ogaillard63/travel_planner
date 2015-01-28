@@ -63,7 +63,7 @@ switch($action) {
 	default:
 		$smarty->assign("titre", $translate->__('list_of_routes'));
 		$smarty->assign("routes", $routes_manager->getRoutes($country_id, true));
-		$smarty->assign("country_id", $country_id, true);
+		$smarty->assign("country_id", $country_id);
 		$smarty->assign("content", "routes/list.tpl.html");
 		$smarty->display("main.tpl.html");
 }

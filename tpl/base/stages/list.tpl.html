@@ -1,0 +1,48 @@
+<div class="row">
+	<div class="col-xs-7">
+		<div class="panel panel-default">
+			<div class="panel-heading">{#list#|ucfirst} {#of_#} {#stages#}
+				<div class="pull-right"><a href="stages.php?action=add&country_id={$country_id}" class="btn btn-xs btn-primary pull-right" role="button">{#add#|ucfirst} {#a_#} {#stage#}</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				{if not empty($stages)}<table class="table table-hover table-striped">
+				<thead>
+					<tr>
+						<th>{#arrival_date#|ucfirst}</th>
+						<th>{#place#|ucfirst}</th>
+						<th>{#length_of_stay#|ucfirst}</th>
+						<th colspan="2">{#actions#|ucfirst}</th>
+					</tr>
+				</thead>
+				<tbody>
+				{foreach from=$stages item=stage}
+					<tr>
+						<td align="left">{$stage->arrival_date|date_format:"%d/%m/%Y"}</td>
+						<td align="left">{$stage->place->name}</td>
+						<td align="left">{$stage->duration}</td>
+						<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="stages.php?action=edit&id={$stage->id}&country_id={$country_id}" title="{#edit#|ucfirst} {#this#} {#stage#}"><i class="fa fa-pencil"></i></a></td>
+						<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="stages.php?action=delete&id={$stage->id}&country_id={$country_id}" title="{#delete#|ucfirst} {#this#} {#stage#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#stage#} ?')"><i class="fa fa-trash"></i></a></td>
+					</tr>
+				{/foreach}
+				</tbody>
+			</table>
+				<ul class="pagination pull-left">
+					{if not empty($btn_nav)} {foreach from=$btn_nav item=btn}
+					<li{if $btn.active} class="active" {/if}><a href="stages.php?{$btn.link}">{$btn.label}</a>
+					</li>
+					{/foreach}{/if}
+				</ul>
+				{else}<h4>{#empty_list#}</h4>{/if}
+			</div>
+		</div>
+	</div>
+	<div class="col-xs-5">
+		<div class="panel panel-default">
+			<div class="panel-heading" id="directions_panel" align="right">
+			</div>
+			<div class="panel-body">
+			</div>
+		</div>
+	</div>
+</div>

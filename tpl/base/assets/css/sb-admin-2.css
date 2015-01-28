@@ -526,3 +526,12 @@ input[readonly] {
     font-style: italic;
     color: gray;
 }
+#activities_list {
+    margin: 0 0 0 0;
+    padding: 6px 12px;
+    border: 1px solid #CCC;
+    border-radius: 4px;
+}
+#activities_list span {
+    padding: 6px 12px;
+}
