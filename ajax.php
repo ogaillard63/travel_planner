@@ -28,5 +28,11 @@ switch($action) {
         echo "ok";
         break;
 	default:
+    case "sort_activities" :
+        $activities_manager = new ActivitiesManager($bdd);
+        $activities_manager->updatePositions($_POST['position']);
+        echo "ok";
+        break;
+    default:
 }
 ?>

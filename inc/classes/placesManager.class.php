@@ -174,7 +174,7 @@ class PlacesManager {
 
 	/**
 	 * Retourne la plus grande valeur de position
-	 * @param $ids
+	 * @param $country_id
 	 */
 	public function getMaxPosition($country_id) {
 		$q = $this->bdd->prepare("SELECT MAX(position) FROM places WHERE country_id = :country_id");

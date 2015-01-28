@@ -62,11 +62,13 @@ gps_lon = longitude
 caption = légende
 modification = modification
 title = titre
+duration = durée
 text = texte
 description = description
 flag = drapeau
 key = clef
 GPS_track = trace GPS
+
 #messages
 empty_list = La liste est vide !
 do_you_really_want_to = Voulez-vous vraiment
@@ -87,6 +89,8 @@ the_post_has_been_deleted = L'article a été effacé !
 the_user_has_been_saved = L'utilisateur a été sauvegardé.
 the_user_has_been_deleted = L'utilisateur a été effacé !
 
+# helps
+duration_in_days = Durée en jours
 # buttons
 edit = modifier
 delete = effacer

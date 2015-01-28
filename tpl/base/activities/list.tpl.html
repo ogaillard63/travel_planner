@@ -1,35 +1,54 @@
 <div class="row">
-	<div class="col-xs-12" id="left">
+	<div class="col-xs-12">
 			<h4><a data-toggle="collapse" data-parent="#accordion" href="#collapse" class="collapsed" aria-expanded="false">{$place->name}</a></h4>
 			<div id="collapse" class="panel-collapse collapse collapse-desc" aria-expanded="false">{$place->description}</div>
-		<div class="panel panel-default">
-			<div class="panel-heading">{#list#|ucfirst} {#of_#} {#activities#}
-				<div class="pull-right"><a href="activities.php?action=add&place_id={$place_id}" class="btn btn-xs btn-primary pull-right" role="button">{#add#|ucfirst} {#a#} {#activity#}</a>
+			<div class="panel panel-default">
+				<div class="panel-heading">{#list#|ucfirst} {#of_#} {#activities#}
+					<div class="pull-right"><a href="activities.php?action=add&place_id={$place_id}" class="btn btn-xs btn-primary pull-right" role="button">{#add#|ucfirst} {#a#} {#activity#}</a>
+					</div>
 				</div>
-			</div>
-			<div class="panel-body">
-				{if not empty($activities)}<table class="table table-hover table-striped">
-				<thead>
-				<tr>
-					<th>{#type#|ucfirst}</th>
-					<th>{#name#|ucfirst}</th>
-					<th>{#description#|ucfirst}</th>
-					<th colspan="2">{#actions#|ucfirst}</th>
-				</tr>
-				</thead>
-				<tbody>
-				{foreach from=$activities item=activity}
-				<tr class="{cycle values="odd,even"}">
-					<td align="left">{$activity->type->name}</td>
-					<td align="left">{$activity->name}</td>
-					<td align="left">{$activity->description|nl2br|truncate:200:' ... ':false}</td>
-					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="activities.php?action=edit&id={$activity->id}&place_id={$activity->place_id}" title="{#edit#|ucfirst} {#this#} {#activity#}"><i class="fa fa-pencil"></i></a></td>
-					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="activities.php?action=delete&id={$activity->id}&place_id={$activity->place_id}" title="{#delete#|ucfirst} {#this#} {#activity#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#activity#} ?')"><i class="fa fa-trash"></i></a></td>
-				</tr>
-				{/foreach}
-				</tbody>
-			</table>
-			{else}<h4>{#empty_list#}</h4>{/if}
+				<div class="panel-body">
+					{if not empty($activities)}<table class="table table-hover table-striped">
+					<thead>
+					<tr>
+						<th>{#type#|ucfirst}</th>
+						<th>{#name#|ucfirst}</th>
+						<th>{#duration#|ucfirst}</th>
+						<th colspan="2">{#actions#|ucfirst}</th>
+					</tr>
+					</thead>
+					<tbody class="tableSortable">
+					{foreach from=$activities item=activity}
+					<tr id="position_{$activity->id}">
+						<td align="left">{$activity->type->name}</td>
+						<td align="left">{$activity->name}</td>
+						<td align="left">{$activity->duration}</td>
+						<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="activities.php?action=edit&id={$activity->id}&place_id={$activity->place_id}" title="{#edit#|ucfirst} {#this#} {#activity#}"><i class="fa fa-pencil"></i></a></td>
+						<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="activities.php?action=delete&id={$activity->id}&place_id={$activity->place_id}" title="{#delete#|ucfirst} {#this#} {#activity#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#activity#} ?')"><i class="fa fa-trash"></i></a></td>
+					</tr>
+					{/foreach}
+					</tbody>
+					</table>
+					{else}<h4>{#empty_list#}</h4>{/if}
+				</div>
 		</div>
 	</div>
 </div>
+<script>
+	$(document).ready(function() {
+		$( "tbody.tableSortable" )
+				.sortable({
+					items: "tr",
+					helper:"clone",
+					zIndex: 999990,
+					update: function(){
+						$.ajax({
+							data: $(this).sortable('serialize'),
+							type: 'POST',
+							url: 'ajax.php?action=sort_activities'
+						});
+					}
+				})
+				.disableSelection()	;
+	});
+</script>

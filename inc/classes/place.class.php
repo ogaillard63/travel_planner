@@ -14,7 +14,7 @@ class Place {
 	public $name;
 	public $description;
 	public $photo;
-	public $sort;
+	public $position;
 
 	public function __construct(array $data) {
 		$this->hydrate($data);

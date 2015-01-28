@@ -16,6 +16,7 @@ $type_id		= Utils::get_input('type_id','post');
 $file_path		= Utils::get_input('file_path','post');
 $name			= Utils::get_input('name','post');
 $description	= Utils::get_input('description','post');
+$duration		= Utils::get_input('duration','post');
 
 $activities_manager = new ActivitiesManager($bdd);
 $bc = new Breadcrumb($bdd, "activities", $place_id, $action); // Breadcrumbs
@@ -42,7 +43,8 @@ if ($user->isLoggedIn() ) { // BO
 			$file_gps = new UploadFile($_FILES['gps_file'], 'res/files/gps', array("gpx"));
 			$result_upload = $file_gps->upload();
 			// $log->alert($result_upload['error']);
-			$data = array("id" => $id, "place_id" => $place_id, "type_id" => $type_id, "name" => $name, "file_path" => $result_upload["file_path"], "description" => $description);
+			$data = array("id" => $id, "place_id" => $place_id, "type_id" => $type_id, "name" => $name,
+				"file_path" => $result_upload["file_path"], "description" => $description, "duration" => $duration);
 			$activities_manager->saveActivity(new Activity($data));
 			$log->alert($translate->__('the_activity_has_been_saved'));
 			Utils::redirection("activities.php?place_id=".$place_id);

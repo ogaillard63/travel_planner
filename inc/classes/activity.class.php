@@ -15,6 +15,7 @@ class Activity {
 	public $file_path;
 	public $name;
 	public $description;
+	public $duration;
 	public $position;
 
 	public function __construct(array $data) {
@@ -93,6 +94,13 @@ class Activity {
 	}
 	public function getDescription() {
 		return $this->description;
+	}
+	// duration
+	public function setDuration($duration) {
+		$this->duration = $duration;
+	}
+	public function getDuration() {
+		return $this->duration;
 	}
 	// position
 	public function setPosition($position) {

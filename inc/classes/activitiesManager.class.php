@@ -47,11 +47,11 @@ class ActivitiesManager {
 	public function getActivities($place_id, $isEagerFetch = true) {
 		$activities = array();
 		if ($place_id > 0) {
-			$q = $this->bdd->prepare('SELECT * FROM activities WHERE place_id = :place_id');
+			$q = $this->bdd->prepare('SELECT * FROM activities WHERE place_id = :place_id ORDER BY position');
 			$q->bindValue(':place_id', $place_id, PDO::PARAM_INT);
 			}
 		else {
-			$q = $this->bdd->prepare('SELECT * FROM activities ORDER BY place_id');
+			$q = $this->bdd->prepare('SELECT * FROM activities ORDER BY position');
 		}
 		$q->execute();
 		while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
@@ -74,7 +74,7 @@ class ActivitiesManager {
 		$place_manager = new PlacesManager($this->bdd);
 		$places = $place_manager->getPlaces($country_id);
 		foreach ($places as $place) {
-			$q = $this->bdd->prepare('SELECT * FROM activities WHERE place_id = :place_id');
+			$q = $this->bdd->prepare('SELECT * FROM activities WHERE place_id = :place_id ORDER BY position');
 			$q->bindValue(':place_id',$place->getId(), PDO::PARAM_INT);
 			$q->execute();
 			while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
@@ -124,9 +124,12 @@ class ActivitiesManager {
 	*/
 	public function saveActivity(Activity $activity) {
 		if ($activity->getId() == -1) {
-			$q = $this->bdd->prepare('INSERT INTO activities SET place_id = :place_id, type_id = :type_id, name = :name, file_path = :file_path, description = :description');
+			$q = $this->bdd->prepare('INSERT INTO activities SET place_id = :place_id, type_id = :type_id, name = :name,
+						file_path = :file_path, description = :description, duration = :duration, position = :position');
+			$q->bindValue(':position', $this->getMaxPosition($activity->getPlaceId())+1, PDO::PARAM_STR);
 		} else {
-			$q = $this->bdd->prepare('UPDATE activities SET place_id = :place_id, type_id = :type_id, name = :name, file_path = :file_path, description = :description WHERE id = :id');
+			$q = $this->bdd->prepare('UPDATE activities SET place_id = :place_id, type_id = :type_id, name = :name,
+						file_path = :file_path, description = :description, duration = :duration WHERE id = :id');
 			$q->bindValue(':id', $activity->getId(), PDO::PARAM_INT);
 		}
 		$q->bindValue(':place_id', $activity->getPlaceId(), PDO::PARAM_INT);
@@ -134,8 +137,36 @@ class ActivitiesManager {
 		$q->bindValue(':name', $activity->getName(), PDO::PARAM_STR);
 		$q->bindValue(':file_path', $activity->getFilePath(), PDO::PARAM_STR);
 		$q->bindValue(':description', $activity->getDescription(), PDO::PARAM_STR);
+		$q->bindValue(':duration', $activity->getDuration(), PDO::PARAM_INT);
 		$q->execute();
 		if ($activity->getId() == -1) $activity->setId($this->bdd->lastInsertId());
 	}
+
+	/**
+	 * Met à jour l'ordre de classement
+	 * @param $ids
+	 */
+	public function updatePositions($ids) {
+		$position = 1;
+		foreach ($ids as $id) {
+			$q = $this->bdd->prepare("UPDATE activities SET position = :position WHERE id = :id");
+			$q->bindValue(':position', $position++, PDO::PARAM_INT);
+			$q->bindValue(':id', $id, PDO::PARAM_INT);
+			$q->execute();
+		}
+	}
+
+	/**
+	 * Retourne la plus grande valeur de position
+	 * @param $place_id
+	 */
+	public function getMaxPosition($place_id) {
+		$q = $this->bdd->prepare("SELECT MAX(position) FROM activities WHERE place_id = :place_id");
+		$q->bindValue(':place_id', $place_id, PDO::PARAM_INT);
+		$q->execute();
+		return intval($q->fetch(PDO::FETCH_COLUMN));
+	}
+
+
 }
 ?>

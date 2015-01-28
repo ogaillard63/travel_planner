@@ -10,18 +10,22 @@
 					<input id="file_path" name="file_path" type="hidden" value="{$activity->file_path}" />
 					<input name="action" type="hidden" value="save" />
 					<div class="form-group row">
+						<div class="col-md-2">
+							<label for="type_id">{#type#|ucfirst}</label>
+							{if isset($activity->type_id)}{html_options name=type_id options=$types selected=$activity->type_id class="form-control"}{else}{html_options name=type_id options=$types class="form-control"}{/if}
+						</div>
 						<div class="col-md-9">
 							<label for="name">{#name#|ucfirst}</label>
 							<input class="form-control" type="text" name="name" value="{$activity->name}"/>
 						</div>
-						<div class="col-md-3">
-							<label>{#type#|ucfirst}</label>
-							{if isset($activity->type_id)}{html_options name=type_id options=$types selected=$activity->type_id class="form-control"}{else}{html_options name=type_id options=$types class="form-control"}{/if}
+						<div class="col-md-1">
+							<label for="duration">{#duration#|ucfirst}</label>
+							<input class="form-control" type="text" name="duration" value="{$activity->duration}" title="{#duration_in_days#}"/>
 						</div>
 					</div>
 					<div id="show_file" class="form-group row"{if empty($activity->file_path)} style="display:none;"{/if}>
-						<label class="col-sm-12">{#gps_file#|ucfirst}</label>
-						<div class="col-xs-9"><input type="text" class="form-control" value="{$activity->file_path}"></div>
+						<label for="file_path" class="col-sm-12">{#gps_file#|ucfirst}</label>
+						<div class="col-xs-9"><input type="text" name="file_path" class="form-control" value="{$activity->file_path}"></div>
 						<div class="col-xs-3 btn-group">
 							<span id="open-map-modal" class="btn btn-primary btn-file" data-toggle="modal" data-target="#map-modal" title="view_the_track"><i class="fa fa-area-chart"></i></span>
 							<span id="remove_file" class="btn btn-danger btn-file" title="remove_the_track"><i class="fa fa-trash"></i></span>
