@@ -1,0 +1,3 @@
+29/01/2015
++ debug Datepicker / plugin non chargé
++ debug upload gpx track / delete non fonctionnel

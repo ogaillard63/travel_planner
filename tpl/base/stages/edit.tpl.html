@@ -21,7 +21,7 @@
 						<label for="{#activities#}">{#activities#|ucfirst}</label>
 						<div id="activities_list">
 							{if isset($activities)}{foreach from=$activities item=activity}
-							<input type="checkbox" name="activities[]" value="{$activity->id}"{if $stage->activities_ids|strstr:{$activity->id}} checked{/if}><span>{$activity->id} - {$activity->type->name} | {$activity->name} ({$activity->duration} J)</span><br>
+							<input type="checkbox" name="activities[]" value="{$activity->id}"{if $stage->activities_ids|strstr:{$activity->id}} checked{/if}><span>{$activity->type->name} | {$activity->name} ({$activity->duration} J)</span><br>
 							{/foreach}{else}&nbsp;{/if}
 						</div>
 					</div>
