@@ -113,7 +113,7 @@ if ($user->isLoggedIn() ) { // BO
 else { // FO
 	$smarty->assign("titre", $translate->__('list_of_places'));
 	$smarty->assign("places", $places_manager->getPlaces($country_id)); // for map
-	$smarty->assign("content", "places/list_front.html");
+	$smarty->assign("content", "places/list_front.tpl.html");
 	$smarty->display("main.tpl.html");
 }
 

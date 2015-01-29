@@ -47,6 +47,7 @@ gps_file = fichier GPS
 browse = selectionner
 cancel = annuler
 length_of_stay = durée du séjour
+days = J
 
 # fields
 name = nom

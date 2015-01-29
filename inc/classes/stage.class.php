@@ -8,9 +8,9 @@
 
 class Stage {
 	public $id;
-	public $country_id;
 	public $place_id;
 	public $place;
+	public $activities_ids;
 	public $activities;
 	public $arrival_date;
 	public $position;
@@ -45,13 +45,6 @@ class Stage {
 	public function getId() {
 		return $this->id;
 	}
-	// country_id
-	public function setCountryId($country_id) {
-		$this->country_id = $country_id;
-	}
-	public function getCountryId() {
-		return $this->country_id;
-	}
 	// place_id
 	public function setPlaceId($place_id) {
 		$this->place_id = $place_id;
@@ -65,6 +58,13 @@ class Stage {
 	}
 	public function getPlace() {
 		return $this->place;
+	}
+	// activities
+	public function setActivitiesIds($activities_ids) {
+		$this->activities_ids = $activities_ids;
+	}
+	public function getActivitiesIds() {
+		return $this->activities_ids;
 	}
 	// activities
 	public function setActivities($activities) {

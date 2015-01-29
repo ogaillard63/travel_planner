@@ -7,30 +7,29 @@
 			<div class="panel-body">
 				<form role="form" name="form_param" method="post" action="stages.php">
 					<input name="id" type="hidden" value="{$stage->id}" />
-					<input name="country_id" type="hidden" value="{$stage->country_id}" />
 					<input name="action" type="hidden" value="save" />
 					<div class="form-group">
 						<label for="{#place_id#}">{#place#|ucfirst}</label>
 						<select name="place_id" class="form-control" id="select_place">
 							{if $stage->id == -1}<option value="0">Selectionnez un lieu ...</option>{/if}
 							{foreach from=$places item=place}
-							<option value="{$place->id}"{if $stage->place_id == $place->id} selected{/if}>{$place->name}</option>
+							<option value="{$place->id}"{if $stage->place_id == $place->id} selected{/if}>{$place->country->name} | {$place->name}</option>
 							{/foreach}
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="{#activities#}">{#activities#|ucfirst}</label>{if isset($stage->activities)} {$stage->activities}{/if}
+						<label for="{#activities#}">{#activities#|ucfirst}</label>
 						<div id="activities_list">
 							{if isset($activities)}{foreach from=$activities item=activity}
-							<input type="checkbox" name="activities[]" value="{$activity->id}"{if $stage->activities|strstr:{$activity->id}} checked{/if}><span>{$activity->id} - {$activity->type->name} | {$activity->name} ({$activity->duration} J)</span><br>
+							<input type="checkbox" name="activities[]" value="{$activity->id}"{if $stage->activities_ids|strstr:{$activity->id}} checked{/if}><span>{$activity->id} - {$activity->type->name} | {$activity->name} ({$activity->duration} J)</span><br>
 							{/foreach}{else}&nbsp;{/if}
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-xs-3">
+						<div class="col-xs-2">
 							<div class="form-group">
 								<label for="{#arrival_date#}">{#arrival_date#|ucfirst}</label>
-								<input class="form-control datepicker" type="text" name="arrival_date" value="{$stage->arrival_date}" />
+								<input class="form-control datepicker" type="text" name="arrival_date" value="{$stage->arrival_date|date_format:"%d/%m/%Y"}" />
 							</div>
 						</div>
 						<div class="col-xs-1">
@@ -53,7 +52,8 @@
 		</div>
 	</div>
 </div>
-<script src=""></script>
+<link href="{$tpl}/assets/plugins/datepicker/css/datepicker.css" rel="stylesheet">
+<script src="{$tpl}/assets/plugins/datepicker/js/bootstrap-datepicker.js"></script>
 {literal}<script type="text/javascript">
 	$("#select_place").change(function() {
 		$.ajax({
@@ -67,5 +67,7 @@
 	});
 	$(".datepicker").datepicker({
 		format: "dd/mm/yyyy"
-	});
+	}) .on('changeDate', function(){
+		//this.hide();
+		});
 </script>{/literal}

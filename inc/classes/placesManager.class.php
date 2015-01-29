@@ -51,7 +51,7 @@ class PlacesManager {
 			$q->bindValue(':country_id', $country_id, PDO::PARAM_INT);
 		}
 		else {
-			$q = $this->bdd->prepare('SELECT * FROM places ORDER BY position');
+			$q = $this->bdd->prepare('SELECT * FROM places ORDER BY country_id, position');
 		}
 		$q->execute();
 		while ($data = $q->fetch(PDO::FETCH_ASSOC)) {

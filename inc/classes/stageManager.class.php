@@ -39,17 +39,31 @@ class StageManager {
 		return $stages;
 	}*/
 	
-	 public function getStages($country_id = 0, $isEagerFetch = false) {
+	 public function getStages($isEagerFetch = false) {
 		$stages = array();
-		$q = $this->bdd->prepare('SELECT * FROM stages WHERE country_id = :country_id ORDER BY place_id');
-		$q->bindValue(':country_id', $country_id, PDO::PARAM_INT);
+		$q = $this->bdd->prepare('SELECT * FROM stages ORDER BY position');
 		$q->execute();
 		while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
 			$stage = new Stage($data);
 			if ($isEagerFetch) {
+				// place
 				$places_manager = new PlacesManager($this->bdd);
 				$stage->setPlace($places_manager->getPlace($stage->getPlaceId()));
+
+				// activities
+				$activities = array();
+				//var_dump($stage);
+				if (strlen($stage->getActivitiesIds()) > 0) {
+					//echo $stage->getActivitiesIds();
+					$activities_manager = new ActivitiesManager($this->bdd);
+					foreach ($activities_manager->getActivities($stage->getPlaceId()) as $activity) {
+						if (strrpos(strval($stage->getActivitiesIds()), strval($activity->getId())) !== false) {
+							$activities[] = $activity;
+						}
+					}
 				}
+				$stage->setActivities($activities);
+			}
 			$stages[] = $stage;
 		}
 		return $stages;
@@ -126,15 +140,14 @@ class StageManager {
 	*/
 	public function saveStage(Stage $stage) {
 		if ($stage->getId() == -1) {
-			$q = $this->bdd->prepare('INSERT INTO stages SET country_id = :country_id, place_id = :place_id, activities = :activities, arrival_date = :arrival_date, position = :position, duration = :duration, description = :description');
-			$q->bindValue(':position', $this->getMaxPosition($stage->getCountryId())+1, PDO::PARAM_STR);
+			$q = $this->bdd->prepare('INSERT INTO stages SET place_id = :place_id, activities_ids = :activities_ids, arrival_date = :arrival_date, position = :position, duration = :duration, description = :description');
+			$q->bindValue(':position', $this->getMaxPosition()+1, PDO::PARAM_STR);
 		} else {
-			$q = $this->bdd->prepare('UPDATE stages SET country_id = :country_id, place_id = :place_id, activities = :activities, arrival_date = :arrival_date, duration = :duration, description = :description WHERE id = :id');
+			$q = $this->bdd->prepare('UPDATE stages SET place_id = :place_id, activities_ids = :activities_ids, arrival_date = :arrival_date, duration = :duration, description = :description WHERE id = :id');
 			$q->bindValue(':id', $stage->getId(), PDO::PARAM_INT);
 		}
-		$q->bindValue(':country_id', $stage->getCountryId(), PDO::PARAM_STR);
 		$q->bindValue(':place_id', $stage->getPlaceId(), PDO::PARAM_STR);
-		$q->bindValue(':activities', $stage->getActivities(), PDO::PARAM_STR);
+		$q->bindValue(':activities_ids', $stage->getActivitiesIds(), PDO::PARAM_STR);
 		$q->bindValue(':arrival_date', $stage->getArrivalDate(), PDO::PARAM_STR);
 		$q->bindValue(':duration', $stage->getDuration(), PDO::PARAM_STR);
 		$q->bindValue(':description', $stage->getDescription(), PDO::PARAM_STR);	
@@ -161,9 +174,8 @@ class StageManager {
 	 * Retourne la plus grande valeur de position
 	 * @param $country_id
 	 */
-	public function getMaxPosition($country_id) {
-		$q = $this->bdd->prepare("SELECT MAX(position) FROM stages WHERE country_id = :country_id");
-		$q->bindValue(':country_id', $country_id, PDO::PARAM_INT);
+	public function getMaxPosition() {
+		$q = $this->bdd->prepare("SELECT MAX(position) FROM stages");
 		$q->execute();
 		return intval($q->fetch(PDO::FETCH_COLUMN));
 	}
