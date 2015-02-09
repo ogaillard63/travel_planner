@@ -14,6 +14,7 @@ $action				= Utils::get_input('action','both');
 $id					= Utils::get_input('id','both');
 $page				= Utils::get_input('page','both');
 $place_id			= Utils::get_input('place_id','post');
+$country_id			= Utils::get_input('country_id','get');
 $activities			= Utils::get_input('activities','post');
 $activities_ids    = (is_array($activities))?implode(",", $activities):"";
 $arrival_date		= Utils::dateToSql(Utils::get_input('arrival_date','post'));
@@ -74,14 +75,14 @@ if ($user->isLoggedIn() ) { // BO
 			//$smarty->assign("_id", $_id);
 			*/
 			$smarty->assign("stages", $stages_manager->getStages(true));
-			$smarty->assign("content", "stages/list.tpl.html");
+			$smarty->assign("content", "stages/homepage.tpl.html");
 			$smarty->display("main.tpl.html");
 	}
 }
 else { // FO
 	$smarty->assign("titre", $translate->__('list_of_stages'));
-	$smarty->assign("stages", $stages_manager->getStages(true));
-	$smarty->assign("content", "stages/list_front.tpl.html");
+	$smarty->assign("stages", $stages_manager->getStages(true, $country_id));
+	$smarty->assign("content", "stages/timeline.tpl.html");
 	$smarty->display("main.tpl.html");
 }
 require_once( "inc/append.php" );

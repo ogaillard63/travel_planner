@@ -38,7 +38,7 @@ switch($action) {
 			$smarty->assign("titre", $translate->__($pageTitle));
 			$manager = new $className($bdd);
 			$smarty->assign($items, $manager->$funcName($id));
-			$smarty->assign("content", $items."/list.tpl.html");
+			$smarty->assign("content", $items."/homepage.tpl.html");
 			}
 		else {
 			$smarty->assign("titre", "Dashboard");
@@ -51,6 +51,6 @@ $smarty->assign("titre", $translate->__('list_of_continents'));
 $smarty->assign("continents", $continents_manager->getContinents(true));
 $smarty->assign("allPlaces", $places_manager->getPlaces());
 
-$smarty->assign("content", "continents/list.tpl.html");
+$smarty->assign("content", "misc/homepage.tpl.html");
 $smarty->display("main.tpl.html");
 ?>

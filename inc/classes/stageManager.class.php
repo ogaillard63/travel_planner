@@ -39,9 +39,16 @@ class StageManager {
 		return $stages;
 	}*/
 	
-	 public function getStages($isEagerFetch = false) {
+	 public function getStages($isEagerFetch = false, $country_id = 0) {
 		$stages = array();
-		$q = $this->bdd->prepare('SELECT * FROM stages ORDER BY position');
+		 if ($country_id > 0) {
+			 $q = $this->bdd->prepare('SELECT * FROM stages  WHERE country_id = :country_id ORDER BY position');
+			 $q->bindValue(':country_id', $country_id, PDO::PARAM_INT);
+		 }
+		 else {
+			 $q = $this->bdd->prepare('SELECT * FROM stages ORDER BY position');
+		 }
+
 		$q->execute();
 		while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
 			$stage = new Stage($data);
