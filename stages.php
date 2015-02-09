@@ -75,7 +75,7 @@ if ($user->isLoggedIn() ) { // BO
 			//$smarty->assign("_id", $_id);
 			*/
 			$smarty->assign("stages", $stages_manager->getStages(true));
-			$smarty->assign("content", "stages/homepage.tpl.html");
+			$smarty->assign("content", "stages/list.tpl.html");
 			$smarty->display("main.tpl.html");
 	}
 }
