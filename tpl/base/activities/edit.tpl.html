@@ -25,7 +25,7 @@
 					</div>
 					<div id="show_file" class="form-group row"{if empty($activity->file_path)} style="display:none;"{/if}>
 						<label for="file_path" class="col-sm-12">{#gps_file#|ucfirst}</label>
-						<div class="col-xs-9"><input type="text" name="file_path" class="form-control" value="{$activity->file_path}"></div>
+						<div class="col-xs-9"><input type="text" class="form-control" value="{$activity->file_path}" disabled></div>
 						<div class="col-xs-3 btn-group">
 							<span id="open-map-modal" class="btn btn-primary btn-file" data-toggle="modal" data-target="#map-modal" title="view_the_track"><i class="fa fa-area-chart"></i></span>
 							<span id="remove_file" class="btn btn-danger btn-file" title="remove_the_track"><i class="fa fa-trash"></i></span>
@@ -46,7 +46,7 @@
 						<textarea id="editor" class="form-control" name="description" rows="16">{$activity->description}</textarea>
 					</div>
 					<div class="form-group pull-right">
-						<button class="btn btn-danger" type="cancel">Annuler</button>&nbsp;
+						<!--<button class="btn btn-danger" type="cancel">Annuler</button>&nbsp;-->
 						<input type="submit" value="{#save#|capitalize}" class="btn btn-success" />
 					</div>
 				</form>

@@ -6,6 +6,8 @@
  * @desc			Controleur des objets : activities
  */
 
+
+
 require_once( "inc/prepend.php" );
 
 // Récupération des variables
@@ -50,8 +52,8 @@ if ($user->isLoggedIn() ) { // BO
 			$data = array("id" => $id, "place_id" => $place_id, "type_id" => $type_id, "name" => $name,
 				"file_path" => $file_path, "description" => $description, "duration" => $duration);
 			$activities_manager->saveActivity(new Activity($data));
-			//$log->alert($translate->__('the_activity_has_been_saved'));
-			$log->alert(basename($file_path) ." - " . basename($_FILES['gps_file']['name']) );
+			$log->alert($translate->__('the_activity_has_been_saved'));
+			//$log->alert(basename($file_path) ." - " . basename($_FILES['gps_file']['name']) );
 			Utils::redirection("activities.php?place_id=".$place_id);
 			break;
 
