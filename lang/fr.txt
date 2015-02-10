@@ -74,6 +74,7 @@ flag = drapeau
 key = clef
 GPS_track = trace GPS
 arrival_date = date d'arrivée
+getting_there = pour s'y rendre
 
 #messages
 empty_list = La liste est vide !
@@ -97,6 +98,7 @@ the_user_has_been_deleted = L'utilisateur a été effacé !
 the_stage_has_been_saved = L'étape a été sauvegardée.
 the_stage_has_been_deleted = L'étape a été effacée !
 no_result = aucun résultat pour cette recherche
+
 # helps
 duration_in_days = Durée en jours
 # buttons

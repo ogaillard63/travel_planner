@@ -146,18 +146,20 @@ class ActivitiesManager {
 	*/
 	public function saveActivity(Activity $activity) {
 		if ($activity->getId() == -1) {
-			$q = $this->bdd->prepare('INSERT INTO activities SET place_id = :place_id, type_id = :type_id, name = :name,
-						file_path = :file_path, description = :description, duration = :duration, position = :position');
+			$q = $this->bdd->prepare('INSERT INTO activities SET place_id = :place_id, type_id = :type_id, gps_coord = :gps_coord, name = :name,
+						file_path = :file_path, getting_there = :getting_there, description = :description, duration = :duration, position = :position');
 			$q->bindValue(':position', $this->getMaxPosition($activity->getPlaceId())+1, PDO::PARAM_STR);
 		} else {
-			$q = $this->bdd->prepare('UPDATE activities SET place_id = :place_id, type_id = :type_id, name = :name,
-						file_path = :file_path, description = :description, duration = :duration WHERE id = :id');
+			$q = $this->bdd->prepare('UPDATE activities SET place_id = :place_id, type_id = :type_id, gps_coord = :gps_coord, name = :name,
+						file_path = :file_path, getting_there = :getting_there, description = :description, duration = :duration WHERE id = :id');
 			$q->bindValue(':id', $activity->getId(), PDO::PARAM_INT);
 		}
 		$q->bindValue(':place_id', $activity->getPlaceId(), PDO::PARAM_INT);
 		$q->bindValue(':type_id', $activity->getTypeId(), PDO::PARAM_INT);
+		$q->bindValue(':gps_coord', $activity->getGpsCoord(), PDO::PARAM_STR);
 		$q->bindValue(':name', $activity->getName(), PDO::PARAM_STR);
 		$q->bindValue(':file_path', $activity->getFilePath(), PDO::PARAM_STR);
+		$q->bindValue(':getting_there', $activity->getGettingThere(), PDO::PARAM_STR);
 		$q->bindValue(':description', $activity->getDescription(), PDO::PARAM_STR);
 		$q->bindValue(':duration', $activity->getDuration(), PDO::PARAM_INT);
 		$q->execute();

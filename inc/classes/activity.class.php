@@ -13,7 +13,9 @@ class Activity {
 	public $type_id;
 	public $type;
 	public $file_path;
+	public $gps_coord;
 	public $name;
+	public $getting_there;
 	public $description;
 	public $duration;
 	public $position;
@@ -81,12 +83,26 @@ class Activity {
 	public function getFilePath() {
 		return $this->file_path;
 	}
+	// gps_coord
+	public function setGpsCoord($gps_coord) {
+		$this->gps_coord = $gps_coord;
+	}
+	public function getGpsCoord() {
+		return $this->gps_coord;
+	}
 	// name
 	public function setName($name) {
 		$this->name = $name;
 	}
 	public function getName() {
 		return $this->name;
+	}
+	// getting_there
+	public function setGettingThere($getting_there) {
+		$this->getting_there = $getting_there;
+	}
+	public function getGettingThere() {
+		return $this->getting_there;
 	}
 	// description
 	public function setDescription($description) {

@@ -16,7 +16,9 @@ $id				= Utils::get_input('id','both');
 $place_id		= Utils::get_input('place_id','both');
 $type_id		= Utils::get_input('type_id','post');
 $file_path		= Utils::get_input('file_path','post');
+$gps_coord		= Utils::get_input('gps_coord','post');
 $name			= Utils::get_input('name','post');
+$getting_there	= Utils::get_input('getting_there','post');
 $description	= Utils::get_input('description','post');
 $duration		= Utils::get_input('duration','post');
 
@@ -49,8 +51,8 @@ if ($user->isLoggedIn() ) { // BO
 				$file_path = $result_upload["file_path"];
 			}
 			// $log->alert($result_upload['error']);
-			$data = array("id" => $id, "place_id" => $place_id, "type_id" => $type_id, "name" => $name,
-				"file_path" => $file_path, "description" => $description, "duration" => $duration);
+			$data = array("id" => $id, "place_id" => $place_id, "type_id" => $type_id, "gps_coord" => $gps_coord, "name" => $name,
+				"file_path" => $file_path, "getting_there" => $getting_there, "description" => $description, "duration" => $duration);
 			$activities_manager->saveActivity(new Activity($data));
 			$log->alert($translate->__('the_activity_has_been_saved'));
 			//$log->alert(basename($file_path) ." - " . basename($_FILES['gps_file']['name']) );

@@ -23,27 +23,40 @@
 							<input class="form-control" type="text" name="duration" value="{$activity->duration}" title="{#duration_in_days#}"/>
 						</div>
 					</div>
-					<div id="show_file" class="form-group row"{if empty($activity->file_path)} style="display:none;"{/if}>
-						<label for="file_path" class="col-sm-12">{#gps_file#|ucfirst}</label>
-						<div class="col-xs-9"><input type="text" class="form-control" value="{$activity->file_path}" disabled></div>
-						<div class="col-xs-3 btn-group">
-							<span id="open-map-modal" class="btn btn-primary btn-file" data-toggle="modal" data-target="#map-modal" title="view_the_track"><i class="fa fa-area-chart"></i></span>
-							<span id="remove_file" class="btn btn-danger btn-file" title="remove_the_track"><i class="fa fa-trash"></i></span>
+					<div class="form-group row">
+						<div class="col-md-3">
+							<label for="gps_coord">{#gps_coord#|ucfirst}</label>
+							<input class="form-control" type="text" name="gps_coord" value="{$activity->gps_coord}"/>
 						</div>
+						<div class="col-md-9">
+							<div id="show_file"{if empty($activity->file_path)} style="display:none;"{/if}>
+								<label for="file_path" class="col-sm-12">{#gps_file#|ucfirst}</label>
+								<div class="col-xs-10"><input type="text" class="form-control" value="{$activity->file_path}" disabled></div>
+								<div class="col-xs-2 btn-group">
+									<span id="open-map-modal" class="btn btn-primary btn-file" data-toggle="modal" data-target="#map-modal" title="view_the_track"><i class="fa fa-area-chart"></i></span>
+									<span id="remove_file" class="btn btn-danger btn-file" title="remove_the_track"><i class="fa fa-trash"></i></span>
+								</div>
+							</div>
+							<div id="upload_file"{if !empty($activity->file_path)} style="display:none;"{/if}>
+								<label>{#gps_file#|ucfirst}</label>
+								<div class="input-group">
+								<span class="input-group-btn">
+									<span class="btn btn-primary btn-file">{#browse#|ucfirst} … <input type="file" name="gps_file"></span>
+								</span>
+									<input type="text" class="form-control" readonly="">
+								</div>
+								<span class="help">Only GPX file with max size of 1Mb.</span>
+							</div>
+						</div>
+
 					</div>
-					<div id="upload_file" class="form-group"{if !empty($activity->file_path)} style="display:none;"{/if}>
-						<label>{#gps_file#|ucfirst}</label>
-						<div class="input-group">
-						<span class="input-group-btn">
-							<span class="btn btn-primary btn-file">{#browse#|ucfirst} … <input type="file" name="gps_file"></span>
-						</span>
-							<input type="text" class="form-control" readonly="">
-						</div>
-						<span class="help">Only GPX file with max size of 1Mb.</span>
+					<div class="form-group">
+						<label for="getting_there">{#getting_there#|ucfirst}</label>
+						<textarea class="form-control" name="getting_there" rows="4">{$activity->getting_there}</textarea>
 					</div>
 					<div class="form-group">
 						<label for="description">{#description#|ucfirst}</label>
-						<textarea id="editor" class="form-control" name="description" rows="16">{$activity->description}</textarea>
+						<textarea id="editor" class="form-control" name="description" rows="12">{$activity->description}</textarea>
 					</div>
 					<div class="form-group pull-right">
 						<!--<button class="btn btn-danger" type="cancel">Annuler</button>&nbsp;-->
