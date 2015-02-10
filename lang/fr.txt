@@ -74,7 +74,7 @@ flag = drapeau
 key = clef
 GPS_track = trace GPS
 arrival_date = date d'arrivée
-getting_there = pour s'y rendre
+getting_there = accés
 
 #messages
 empty_list = La liste est vide !
