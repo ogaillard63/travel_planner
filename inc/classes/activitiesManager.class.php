@@ -44,12 +44,12 @@ class ActivitiesManager {
 		return $activities;
 	}*/
 	
-	public function getActivities($place_id, $isEagerFetch = true) {
+		public function getActivities($place_id, $isEagerFetch = true) {
 		$activities = array();
 		if ($place_id > 0) {
 			$q = $this->bdd->prepare('SELECT * FROM activities WHERE place_id = :place_id ORDER BY position');
 			$q->bindValue(':place_id', $place_id, PDO::PARAM_INT);
-			}
+		}
 		else {
 			$q = $this->bdd->prepare('SELECT * FROM activities ORDER BY position');
 		}
@@ -63,11 +63,33 @@ class ActivitiesManager {
 				// Place
 				$place_manager = new PlacesManager($this->bdd);
 				$activity->setPlace($place_manager->getPlace($activity->getPlaceId()));
-				}
+			}
 			$activities[] = $activity;
 		}
 		return $activities;
 	}
+
+	public function getActivitiesFromQuery($queryString, $isEagerFetch = true) {
+		$activities = array();
+		$q = $this->bdd->prepare('SELECT * FROM activities WHERE name LIKE :queryString OR description LIKE :queryString ORDER BY place_id');
+		$q->execute(array(':queryString' => '%' . $queryString . '%'));
+		$q->execute();
+		while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
+			$activity = new Activity($data);
+			if ($isEagerFetch) {
+				// Type
+				$type_manager = new TypesManager($this->bdd);
+				$activity->setType($type_manager->getType($activity->getTypeId()));
+				// Place
+				$place_manager = new PlacesManager($this->bdd);
+				$activity->setPlace($place_manager->getPlace($activity->getPlaceId()));
+			}
+			$activities[] = $activity;
+		}
+		return $activities;
+	}
+
+
 
 	public function getActivitiesForCountry($country_id, $isEagerFetch = true) {
 		$activities = array();

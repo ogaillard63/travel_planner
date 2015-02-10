@@ -13,6 +13,7 @@ $action			= Utils::get_input('action','both');
 $id				= Utils::get_input('id','both');
 $code			= Utils::get_input('code','both');
 $items			= Utils::get_input('items','both');
+$query			= Utils::get_input('query','both');
 
 $continents_manager = new ContinentsManager($bdd);
 $places_manager = new PlacesManager($bdd);
@@ -24,33 +25,27 @@ $places_manager = new PlacesManager($bdd);
 // Breadcrumbs
 $bc = new Breadcrumb($bdd, $items, $id, $action);
 $smarty->assign("breadcrumbs", $bc->getCrumbs());
-/*
+
 switch($action) {
 
+	case "search" :
+		$smarty->assign("titre", $translate->__('search_results'));
+		// recherche les activités
+		$activities_manager = new ActivitiesManager($bdd);
+		$smarty->assign("activities", $activities_manager->getActivitiesFromQuery($query));
+
+		$smarty->assign("content", "misc/search_result.tpl.html");
+		$smarty->display("main.tpl.html");
+		break;
+
+
 	default:
-		if (!empty($items) && !empty($id))	{
-			//echo "items = ".$items; 
-			
-			$pageTitle = $translate->__('list_of_'.$items);
-			$className  = ucfirst($items)."Manager";
-			$funcName = "get".ucfirst($items);
-			
-			$smarty->assign("titre", $translate->__($pageTitle));
-			$manager = new $className($bdd);
-			$smarty->assign($items, $manager->$funcName($id));
-			$smarty->assign("content", $items."/homepage.tpl.html");
-			}
-		else {
-			$smarty->assign("titre", "Dashboard");
-			$smarty->assign("content", "misc/dashboard.tpl.html");
-		}
+		$smarty->assign("titre", $translate->__('list_of_continents'));
+		$smarty->assign("continents", $continents_manager->getContinents(true));
+		$smarty->assign("allPlaces", $places_manager->getPlaces());
+		$smarty->assign("content", "misc/homepage.tpl.html");
 		$smarty->display("main.tpl.html");
 }
-*/
-$smarty->assign("titre", $translate->__('list_of_continents'));
-$smarty->assign("continents", $continents_manager->getContinents(true));
-$smarty->assign("allPlaces", $places_manager->getPlaces());
 
-$smarty->assign("content", "misc/homepage.tpl.html");
-$smarty->display("main.tpl.html");
+
 ?>

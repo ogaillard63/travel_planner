@@ -7,22 +7,22 @@
 				<th colspan="2">{#actions#|ucfirst}</th>
 			 </tr>-->
 			{foreach from=$continents item=continent}
-				{if $continent->countries}  <tr>
-				<td align="left" colspan="5" style="background: #D9D9D9"><strong>{$continent->name}</strong></td>
-				<!--<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="continent.php?action=edit&id={$continent->id}" title="{#edit#|ucfirst} {#this#} {#country#}"><i class="fa fa-pencil"></i></a></td>
-				<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="continent.php?action=delete&id={$continent->id}" title="{#delete#|ucfirst} {#this#} {#country#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#country#} ?')"><i class="fa fa-trash"></i></a></td>-->
-			  </tr>
-				{foreach from=$continent->countries item=country}
-				<tr>
-					<td>&nbsp;</td>
-					<td align="center" width="1%"><img src="{$country->flag}"></td>
-					<td><a href="places.php?country_id={$country->id}">{$country->name}</a></td>
-					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-warning" href="places.php?country_id={$country->id}&continent_id={$country->continent_id}" title="{#places#|ucfirst}"><i class="fa fa-star"></i></a></td>
-					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-info" href="stages.php?country_id={$country->id}&continent_id={$country->continent_id}" title="{#stages#|ucfirst}"><i class="fa fa-bus"></i></a></td>
+			{if $continent->countries}  <tr>
+			<td align="left" colspan="5" style="background: #D9D9D9"><strong>{$continent->name}</strong></td>
+			<!--<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="continent.php?action=edit&id={$continent->id}" title="{#edit#|ucfirst} {#this#} {#country#}"><i class="fa fa-pencil"></i></a></td>
+            <td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="continent.php?action=delete&id={$continent->id}" title="{#delete#|ucfirst} {#this#} {#country#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#country#} ?')"><i class="fa fa-trash"></i></a></td>-->
+		</tr>
+			{foreach from=$continent->countries item=country}
+			<tr>
+				<td>&nbsp;</td>
+				<td align="center" width="1%"><img src="{$country->flag}"></td>
+				<td><a href="places.php?country_id={$country->id}">{$country->name}</a></td>
+				<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-warning" href="places.php?country_id={$country->id}&continent_id={$country->continent_id}" title="{#places#|ucfirst}"><i class="fa fa-star"></i></a></td>
+				<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-info" href="stages.php?country_id={$country->id}&continent_id={$country->continent_id}" title="{#stages#|ucfirst}"><i class="fa fa-bus"></i></a></td>
 			</tr>
-				{/foreach}{/if}
+			{/foreach}{/if}
 			{/foreach}
-			</table>
+		</table>
 			{else}<h4>{#empty_list#}</h4>{/if}
 			<!--<br/>
 			<div align="right">
@@ -32,14 +32,13 @@
 	</div>
 	<div class="col-xs-8">
 		<div class="panel sidebar-search">
-			<form role="search">
+			<form role="search" method="post">
 				<div class="input-group custom-search-form">
-					<input type="text" name="query" class="form-control" placeholder="Search...">
-											<span class="input-group-btn">
-											<button class="btn btn-default" type="submit">
-												<i class="fa fa-search"></i>
-											</button>
-										</span>
+					<input type="hidden" name="action" value="search">
+					<input type="text" name="query" class="form-control" placeholder="Search activities ...">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+					</span>
 				</div>
 			</form>
 			<!-- /input-group -->
