@@ -69,15 +69,22 @@
 	var icon_marker = "{$tpl}/assets/css/img/star.png";
 	var markers = [];
 	var iterator = 0;
-	var places = [];
+	var icon_place = "{$tpl}/assets/css/img/place-marker.png";
+	var icon_activity = "{$tpl}/assets/css/img/activity-marker.png";
+	var poi = [];
 
-	{foreach from=$allPlaces item=place}
-	{literal}places.push({{/literal}coord: new google.maps.LatLng({$place->gps_coord}), name: "{$place->name}"{literal}});{/literal}
-	{/foreach}
+	// places
+{foreach from=$allPlaces item=place}
+{literal}	poi.push({{/literal}coord: new google.maps.LatLng({$place->gps_coord}), name: "{$place->name}", icon: icon_place{literal}});{/literal}
+{/foreach}
 
-	var nbMarkers = places.length;
+	// activities
+{foreach from=$allActivities item=activity}{if !empty($activity->gps_coord)}{literal}
+	poi.push({{/literal}coord: new google.maps.LatLng({$activity->gps_coord}), name: "{$activity->name}", icon: icon_activity{literal}});{/literal}
+{/if}{/foreach}
+
+	var nbMarkers = poi.length;
 	var mapCanvas = document.getElementById('map-canvas');
-
 
 	function initialize() {
 		var mapOptions = {
@@ -88,7 +95,7 @@
 		var map = new google.maps.Map(mapCanvas,  mapOptions);
 		var bounds = new google.maps.LatLngBounds();
 		for (var i = 0; i < nbMarkers; i++) {
-			bounds.extend(places[i].coord);
+			bounds.extend(poi[i].coord);
 			addMarker();
 		}
 
@@ -98,9 +105,9 @@
 
 	function addMarker() {
 		markers.push(new google.maps.Marker({
-			position: places[iterator].coord,
-			//icon: icon_marker,
-			title : places[iterator].name,
+			position: poi[iterator].coord,
+			icon: poi[iterator].icon,
+			title : poi[iterator].name,
 			draggable: false,
 			animation: google.maps.Animation.DROP
 		}));

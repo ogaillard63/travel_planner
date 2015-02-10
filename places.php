@@ -101,6 +101,8 @@ if ($user->isLoggedIn() ) { // BO
 			$smarty->assign("titre", $translate->__('list_of_places'));
 			if (empty($page)) $page = 1; // default page
 			$smarty->assign("allPlaces", $places_manager->getPlaces($country_id)); // for map
+			$activities_manager = new ActivitiesManager($bdd);
+			$smarty->assign("allActivities", $activities_manager->getActivitiesForCountry($country_id)); // for map
 			$smarty->assign("places", $places_manager->getPlacesByPage($country_id, $page, $rpp));
 
 			$pagination = new Pagination($page, $places_manager->getMaxPlaces($country_id), $rpp); // pagination
