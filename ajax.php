@@ -35,6 +35,14 @@ switch($action) {
         echo "ok";
         break;
 
+    case "sort_stages" :
+        $stages_manager = new StagesManager($bdd);
+        $stages_manager->updatePositions($_POST['position']);
+        $stages_manager->updateDates();
+
+        echo "ok";
+        break;
+
     case "get_activities" :
         $html = "";
         $activities_manager = new ActivitiesManager($bdd);

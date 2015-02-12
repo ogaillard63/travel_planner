@@ -17,9 +17,9 @@
 						<th colspan="2">{#actions#|ucfirst}</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="tableSortable">
 				{foreach from=$stages item=stage}
-				<tr style="border-bottom: 1px solid #CCCCCC">
+				<tr style="border-bottom: 1px solid #CCCCCC"  id="position_{$stage->id}">
 					<td align="center" width="1%">{if not empty($stage->activities)}<span data-target="#collapse_{$stage->id}" data-toggle="collapse" class="clickable" style="cursor: pointer;">+</span>{/if}</td>
 					<td align="left" width="1%">{$stage->arrival_date|date_format:"%d/%m/%Y"}</td>
 					<td align="left">{$stage->place->country->name}</td>
@@ -30,10 +30,11 @@
 				</tr>
 				<!-- http://jsfiddle.net/QLfMU/116/ -->
 				{if not empty($stage->activities)}<tr><td colspan="7"  class="hiddenRow">
-					<div id="collapse_{$stage->id}" class="collapse" style="margin-left:20px; border-left: 1px solid #CCCCCC"><table class="table table-hover" style="font-size:90%">
+					<div id="collapse_{$stage->id}" class="collapse" style="margin:0 0 0 20px;border: 1px solid #CCCCCC; border-top: none;"><table class="table table-hover table-striped" style="font-size:90%">
 						{foreach from=$stage->activities item=activity}
 							<tr>
-								<td align="left">{$activity->type->name}</td>
+								<td align="left" width="1%"><span class="badge">{$activity->type->name}</span></td>
+								<td align="left" width="1%"><span class="badge">{$activity->duration} {#days#}</span></td>
 								<td align="left">{$activity->name}</td>
 							</tr>
 							{/foreach}
@@ -66,4 +67,34 @@
 	.hiddenRow {
 		padding: 0 !important;
 	}
+	.highlight {
+		background-color: #DDD;
+	}
 </style>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$( "tbody.tableSortable" )
+				.sortable({
+					items: "tr",
+					placeholder: "highlight",
+					helper: function(e, tr) {
+						var helper = tr.clone();
+						helper.css({literal}{'background': '#FDF6C4',}{/literal});
+						return helper;
+					},
+					zIndex: 999990,
+					update: function(){
+						$.ajax({
+							data: $(this).sortable('serialize'),
+							type: 'POST',
+							url: 'ajax.php?action=sort_stages',
+							success : function(code_html, statut){
+								if(statut) location.reload(true);
+							}
+						});
+					}
+				})
+				.disableSelection()	;
+	});
+</script>

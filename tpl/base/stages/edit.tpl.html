@@ -54,6 +54,7 @@
 </div>
 <link href="{$tpl}/assets/plugins/datepicker/css/datepicker.css" rel="stylesheet">
 <script src="{$tpl}/assets/plugins/datepicker/js/bootstrap-datepicker.js"></script>
+<script src="{$tpl}/assets/plugins/datepicker/locales/bootstrap-datepicker.fr.js"></script>
 {literal}<script type="text/javascript">
 	$("#select_place").change(function() {
 		$.ajax({
@@ -66,7 +67,7 @@
 		});
 	});
 	$(".datepicker").datepicker({
-		format: "dd/mm/yyyy"
+		language: "fr"
 	}) .on('changeDate', function(){
 		//this.hide();
 		});

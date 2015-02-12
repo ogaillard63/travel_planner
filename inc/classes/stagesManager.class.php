@@ -6,7 +6,7 @@
 * @desc			Gestion des stages
 */
 
-class StageManager {
+class StagesManager {
 	protected $bdd;
 
 	public function __construct(PDO $bdd) {
@@ -176,6 +176,28 @@ class StageManager {
 			$q->execute();
 		}
 	}
+
+	/**
+	 * Met à jour les dates de l'itinéraire
+	 * @param $ids
+	 */
+	public function updateDates() {
+		$arrival_date = null;
+		$stages = array();
+		$q = $this->bdd->prepare('SELECT * FROM stages ORDER BY position');
+		$q->execute();
+		while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
+			if ($data["position"] == 1) $arrival_date = $data["arrival_date"];
+			$stages[] = new Stage($data);
+		}
+		foreach ($stages as $stage) {
+			$stage->setArrivalDate($arrival_date);
+			$nb_days = $stage->getDuration();
+			$arrival_date = date('Y-m-d', strtotime($stage->getArrivalDate().' + '.$nb_days.' days'));
+			$this->saveStage($stage);
+		}
+	}
+
 
 	/**
 	 * Retourne la plus grande valeur de position

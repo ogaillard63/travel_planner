@@ -22,7 +22,7 @@ $position			= Utils::get_input('position','post');
 $duration			= Utils::get_input('duration','post');
 $description		= Utils::get_input('description','post');
 
-$stages_manager 	= new StageManager($bdd);
+$stages_manager 	= new StagesManager($bdd);
 
 // Breadcrumbs
 $bc = new Breadcrumb($bdd, "stages",0 , $action);
@@ -53,6 +53,7 @@ if ($user->isLoggedIn() ) { // BO
 			$data = array("id" => $id, "place_id" => $place_id, "activities_ids" => $activities_ids,
 				"arrival_date" => $arrival_date, "duration" => $duration, "description" => $description);
 			$stages_manager->saveStage(new Stage($data));
+			$stages_manager->updateDates();
 			$log->notification($translate->__('the_stage_has_been_saved'));
 			Utils::redirection("stages.php");
 			break;
@@ -60,6 +61,7 @@ if ($user->isLoggedIn() ) { // BO
 		case "delete":
 			$stage = $stages_manager->getStage($id);
 			if ($stages_manager->deleteStage($stage)) {
+				$stages_manager->updateDates();
 				$log->notification($translate->__('the_stage_has_been_deleted'));
 				}
 			Utils::redirection("stages.php");
