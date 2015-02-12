@@ -26,14 +26,21 @@
 	</div>
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script src="{$tpl}/assets/js/FullScreenControl.js"></script>
 <script type="text/javascript">
 
 	var map;
 	function showTrack() {
 		var mapOptions = {
+			disableDefaultUI: true,
+			streetViewControl: true,
+			mapTypeControl: true,
 			mapTypeId: google.maps.MapTypeId.TERRAIN
-			}
+		};
+
 		map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(new FullScreenControl(map));
+
 		// get the track
 		$.ajax({
 			type: "GET",
