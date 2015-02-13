@@ -134,21 +134,12 @@ class EPub {
      */
     function __construct($bookVersion = EPub::BOOK_VERSION_EPUB2, $languageCode = "en", $writingDirection = EPub::DIRECTION_LEFT_TO_RIGHT) {
         include_once("Zip.php");
-		include_once("Logger.php");
 
 		$this->bookVersion = $bookVersion;
 		$this->writingDirection = $writingDirection;
 		$this->languageCode = $languageCode;
 
-        $this->log = new Logger("EPub", $this->isLogging);
 
-        /* Prepare Logging. Just in case it's used. later */
-        if ($this->isLogging) {
-            $this->log->logLine("EPub class version....: " . self::VERSION);
-            $this->log->logLine("EPub req. Zip version.: " . self::REQ_ZIP_VERSION);
-            $this->log->logLine("Zip version...........: " . Zip::VERSION);
-            $this->log->dumpInstalledModules();
-        }
 
         if (!defined("Zip::VERSION") || Zip::VERSION < self::REQ_ZIP_VERSION) {
             die("<p>EPub version " . self::VERSION . " requires Zip.php at version " . self::REQ_ZIP_VERSION . " or higher.<br />You can obtain the latest version from <a href=\"http://www.phpclasses.org/browse/package/6110.html\">http://www.phpclasses.org/browse/package/6110.html</a>.</p>");
