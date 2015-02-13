@@ -52,3 +52,5 @@ crashlytics-build.properties
 tpl_cache
 sql
 inc/properties
+test
+res/files/gps/
