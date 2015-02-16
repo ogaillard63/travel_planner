@@ -1,0 +1,38 @@
+<div class="row">
+	<div class="col-md-12">
+		<h4><a data-toggle="collapse" data-parent="#accordion" href="#collapse" class="collapsed" aria-expanded="false">{$place->name}</a></h4>
+		<div id="collapse" class="panel-collapse collapse collapse-desc" aria-expanded="false">{$place->description}</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">{#list#|ucfirst} {#of_#} {#infos#}
+				<div class="pull-right">
+					<a href="infos.php?action=add&place_id={$place->id}" class="btn btn-xs btn-primary pull-right" role="button">{#add#|ucfirst} {#a_#} {#info#}</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				{if not empty($infos)}<table class="table table-striped">
+				<thead>
+				<tr>
+					<th>{#title#|ucfirst}</th>
+					<th colspan="2">{#actions#|ucfirst}</th>
+				</tr>
+				</thead>
+				<tbody>
+				{foreach from=$infos item=info}
+				<tr>
+					<td align="left">{$info->title}</td>
+					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="infos.php?action=edit&id={$info->id}&place_id={$info->place_id}" title="{#edit#|ucfirst} {#this#} {#info#}"><i class="fa fa-pencil"></i></a></td>
+					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="infos.php?action=delete&id={$info->id}&place_id={$info->place_id}" title="{#delete#|ucfirst} {#this#} {#info#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#info#} ?')"><i class="fa fa-trash"></i></a></td>
+				</tr>
+				{/foreach}
+				</tbody>
+			</table>
+				<ul class="pagination pull-left">
+					{if not empty($btn_nav)} {foreach from=$btn_nav item=btn}
+					<li{if $btn.active} class="active" {/if}><a href="infos.php?{$btn.link}">{$btn.label}</a></li>
+					{/foreach}{/if}
+				</ul>
+				{else}<h4>{#empty_list#}</h4>{/if}
+			</div>
+		</div>
+	</div>
+</div>
