@@ -42,7 +42,6 @@ switch($action) {
 		$smarty->assign("titre", $translate->__('list_of_continents'));
 		$smarty->assign("continents", $continents_manager->getContinents(true));
 		$smarty->assign("allPlaces", $places_manager->getPlaces());
-		$smarty->assign("activities", $activities_manager->getActivitiesForCountry($country_id)); // for map
 		$smarty->assign("content", "misc/homepage.tpl.html");
 		$smarty->display("main.tpl.html");
 }

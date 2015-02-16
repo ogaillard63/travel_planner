@@ -90,6 +90,8 @@ else { // FO
 			$smarty->assign("place", $places_manager->getPlace($place_id));
 			$smarty->assign("place_id", $place_id); // btn add
 			$smarty->assign("activities", $activities_manager->getActivities($place_id));
+			$infos_manager = new InfosManager($bdd);
+			$smarty->assign("infos", $infos_manager->getInfos($place_id));
 			$smarty->assign("content", "activities/list_front.tpl.html");
 	}
 }

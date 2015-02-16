@@ -17,7 +17,8 @@ edit_a_photo = modifier une photo
 add_a_photo = ajouter une nouvelle photo
 edit_a_type = modifier un type d'activité
 add_a_type = ajouter un nouveau type d'activité
-
+edit_an_info = modifier une info pratique
+add_an_info = ajouter une info pratique
 # labels
 home = accueil
 action = action
@@ -28,6 +29,8 @@ country = pays
 countries = pays
 activity = activité
 activities = activités
+info = info pratique
+infos = infos pratiques
 place = lieu
 places = lieux
 route = trajet

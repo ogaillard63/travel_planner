@@ -27,7 +27,6 @@ $places_manager = new PlacesManager($bdd);
 
 // Breadcrumbs
 $bc = new Breadcrumb($bdd, "places", $country_id, $action);
-$smarty->assign("breadcrumbs", $bc->getCrumbs());
 
 if ($user->isLoggedIn() ) { // BO
 	switch ($action) {
@@ -35,13 +34,11 @@ if ($user->isLoggedIn() ) { // BO
 		case "add" :
 			$smarty->assign("place", new Place(array("id" => -1, "country_id" => $country_id)));
 			$smarty->assign("content", "places/edit.tpl.html");
-			$smarty->display("main.tpl.html");
 			break;
 
 		case "edit" :
 			$smarty->assign("place", $places_manager->getPlace($id));
 			$smarty->assign("content", "places/edit.tpl.html");
-			$smarty->display("main.tpl.html");
 			break;
 
 		case "save" :
@@ -109,15 +106,31 @@ if ($user->isLoggedIn() ) { // BO
 			$smarty->assign("country_id", $country_id);
 			$smarty->assign("btn_infos", $pagination->getNavigation());
 			$smarty->assign("content", "places/list.tpl.html");
-			$smarty->display("main.tpl.html");
 	}
 }
 else { // FO
-	$smarty->assign("titre", $translate->__('list_of_places'));
-	$smarty->assign("places", $places_manager->getPlaces($country_id)); // for map
-	$smarty->assign("content", "places/list_front.tpl.html");
-	$smarty->display("main.tpl.html");
+	switch ($action) {
+
+		case "details" :
+			$bc = new Breadcrumb($bdd, "activities", $id, $action); // Breadcrumbs
+			//$smarty->assign("titre", $translate->__('list_of_activities'));
+			$smarty->assign("place", $places_manager->getPlace($id));
+			$activities_manager = new ActivitiesManager($bdd);
+			$smarty->assign("activities", $activities_manager->getActivities($id));
+			$infos_manager = new InfosManager($bdd);
+			$smarty->assign("infos", $infos_manager->getInfos($id));
+			$smarty->assign("content", "places/details.tpl.html");
+			break;
+
+		default:
+			$smarty->assign("titre", $translate->__('list_of_places'));
+			$smarty->assign("places", $places_manager->getPlaces($country_id)); // for map
+			$smarty->assign("content", "places/list_front.tpl.html");
+			break;
+	}
 }
 
+$smarty->assign("breadcrumbs", $bc->getCrumbs());
+$smarty->display("main.tpl.html");
 require_once( "inc/append.php" );
 ?>
