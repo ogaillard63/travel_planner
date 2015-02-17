@@ -1,13 +1,9 @@
 <?php
-//error_reporting(E_ALL | E_STRICT);
-//ini_set('error_reporting', E_ALL | E_STRICT);
+error_reporting(0);
+ini_set('error_reporting', 0);
 //ini_set('display_errors', 1);
 
 require_once( "inc/prepend.php" );
-
-// Example.
-// Create a test book for download.
-// ePub uses XHTML 1.1, preferably strict.
 $content_start =
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 . "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"\n"
@@ -41,7 +37,7 @@ $book->setPublisher("Travel Planner Publications", "http://www.trip333.com/"); /
 $book->setSubject("Trip 333");
 $book->setSubject("Itinéraire de voyage");
 
-$cssData = "body {\n  margin-left: .5em;\n  margin-right: .5em;\n  text-align: justify;\n}\n\np {\n  font-family: serif;\n  font-size: 10pt;\n  text-align: justify;\n  text-indent: 1em;\n  margin-top: 0px;\n  margin-bottom: 1ex;\n}\n\nh1, h2 {\n  font-family: sans-serif;\n  font-style: italic;\n  text-align: center;\n  background-color: #6b879c;\n  color: white;\n  width: 100%;\n}\n\nh1 {\n    margin-bottom: 2px;\n}\n\nh2 {\n    margin-top: -2px;\n    margin-bottom: 2px;\n}\n";
+$cssData = file_get_contents('inc/epub/css/styles.css', true);;
 $book->addCSSFile("styles.css", "css1", $cssData);
 
 $book->setCoverImage("Cover.jpg", file_get_contents("inc/epub/demo/cover-image.jpg"), "image/jpeg");
@@ -54,22 +50,66 @@ $stages_manager 	= new StagesManager($bdd);
 $stages  = $stages_manager->getStages(true);
 $chapters = array();
 $index = 0;
+$sub_index = 0;
+$last_country = "";
+$country_name = "";
+$search  = array("<div>", "</div>");
+$replace = array("<p>", "</p>");
 
 foreach ($stages as $stage) {
+    $activities = array();
     $index ++;
-   //var_dump($stage);
-    $html = $content_start . "<h1>" . $stage->getPlace()->getCountry()->getName() . "</h1>\n"
-        . "<h2>Lorem ipsum</h2>\n"
-        . "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec magna lorem, mattis sit amet porta vitae, consectetur ut eros. Nullam id mattis lacus. In eget neque magna, congue imperdiet nulla. Aenean erat lacus, imperdiet a adipiscing non, dignissim eget felis. Nulla facilisi. Vivamus sit amet lorem eget mauris dictum pharetra. In mauris nulla, placerat a accumsan ac, mollis sit amet ligula. Donec eget facilisis dui. Cras elit quam, imperdiet at malesuada vitae, luctus id orci. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque eu libero in leo ultrices tristique. Etiam quis ornare massa. Donec in velit leo. Sed eu ante tortor.</p>\n"
-        . "<p><img src=\"http://www.grandt.com/ePub/AnotherHappilyMarriedCouple.jpg\" alt=\"Test Image retrieved off the internet: Another happily married couple\" />Nullam at tempus enim. Nunc et augue non lectus consequat rhoncus ac a odio. Morbi et tellus eget nisi volutpat tincidunt. Curabitur tristique neque tincidunt purus blandit bibendum. Maecenas eleifend sem quis magna semper id pulvinar nisi porttitor. In in lectus accumsan eros tristique pharetra sit amet ac nulla. Nam vitae felis et orci congue porta nec non ipsum. Donec pretium blandit accumsan. In aliquam lacinia nisi, ut venenatis mauris condimentum ut. Morbi rutrum orci et nisl accumsan euismod. Etiam viverra luctus sem pellentesque suscipit. Aliquam ultricies egestas risus at eleifend. Ut lacinia, tortor non varius malesuada, massa diam aliquet augue, vitae tempor metus tellus eget diam. Nulla vel augue eu elit adipiscing egestas. Duis et nulla est, ac congue arcu. Phasellus semper, ipsum et blandit rutrum, erat ante semper quam, at iaculis quam tellus sed neque.</p>\n"
-        . "<p>Pellentesque vulputate sollicitudin justo, at faucibus nisl convallis in. Nulla facilisi. Curabitur nec mauris eu justo ultricies ultricies gravida eu ipsum. Pellentesque at nunc velit, vitae congue nisl. Nam varius imperdiet leo eu accumsan. Nullam elementum fermentum diam euismod porttitor. Etiam sed pellentesque ante. Donec in est elementum mi tempor consectetur. Fusce orci lorem, mollis at tincidunt eget, fringilla sed nunc. Ut consectetur condimentum condimentum. Phasellus sed felis non massa gravida euismod ut in tellus. Curabitur suscipit pharetra sapien vitae dignissim. Morbi id arcu nec ante viverra lobortis vitae nec quam. Mauris id gravida odio. Nunc non sem nisi. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Pellentesque hendrerit volutpat nisl id elementum. Vivamus lobortis iaculis nisi, sit amet tristique risus porttitor vel. Suspendisse potenti.</p>\n"
-        . "<p>Quisque aliquet sapien leo, vitae eleifend dolor. Fusce quis tincidunt nunc. Nam nec purus nulla, ac eleifend lorem. Curabitur eu quam et nibh egestas mattis. Maecenas eget felis augue. Integer scelerisque commodo urna, a pulvinar tortor euismod et. Praesent in nunc sapien. Ut iaculis auctor neque, sit amet rutrum est faucibus vitae. Sed a sagittis quam. Quisque interdum luctus fringilla. Vestibulum vitae nunc in felis luctus ultricies at id magna. Nam volutpat sapien ac lorem interdum pellentesque. Suspendisse faucibus, leo vitae laoreet interdum, mi mi pulvinar neque, sit amet tristique sapien nulla nec dolor. Etiam non ligula augue.</p>\n"
-        . "<p>Vivamus purus elit, ornare eget accumsan ut, luctus et orci. Sed vestibulum turpis ut quam vehicula id hendrerit velit suscipit. Pellentesque pulvinar, libero vitae sagittis scelerisque, felis ante faucibus risus, ut viverra velit mi at tortor. Aliquam lacinia condimentum felis, eu elementum ligula laoreet vitae. Sed placerat tempus turpis a fringilla. Etiam porta accumsan feugiat. Phasellus et cursus magna. Suspendisse vitae odio sit amet urna vulputate consectetur. Vestibulum massa magna, sagittis at dictum vitae, sagittis scelerisque erat. Donec viverra tincidunt lacus. Maecenas fermentum erat et mauris tincidunt sed eleifend quam tempus. In at augue mi, in tincidunt arcu. Duis dapibus aliquet mi, ac ullamcorper est semper quis. Sed nec nulla nec odio malesuada viverra id sed nulla. Donec lobortis euismod aliquam. Praesent sit amet dolor quis lacus auctor lobortis. In hac habitasse platea dictumst. Sed at nisi sed nisi ullamcorper pellentesque. Vivamus eget enim sem, non laoreet leo. Sed vel odio lacus.</p>\n"
-        . $bookEnd;
+    $sub_index = 0;
+    $html = "";
+    $country_name = $stage->getPlace()->getCountry()->getName();
+
+    if ($last_country <>  $country_name) {
+
+        // COUNTRY
+
+        $book->backLevel();
+        $html = $content_start . "<h1 class='country'>" .  $country_name . "</h1>\n";
+        //$html .= "<h2>".$place_name."</h2>\n";
+        $html .= str_replace($search, $replace, $stage->getPlace()->getCountry()->getDescription())."\n";
+        $html .= $bookEnd;
+        $book->addChapter($country_name, "Chapter".$index.".html", $html);
+        //$book->backLevel();
+
+        $last_country = $country_name;
+    }
+
+    // PLACE
+    $book->subLevel();
+    $html = $content_start . "<h1>" .  $country_name . "</h1>\n";
+    $html .= "<h2 class='place'>".$stage->getPlace()->getName()."</h2>\n";
 
 
 
-$book->addChapter("Chapter ".$index.":", "Chapter".$index.".html", $html, true, EPub::EXTERNAL_REF_ADD);
+    $html .= str_replace($search, $replace, $stage->getPlace()->getDescription())."\n";
+
+    //$html .= "<h2>".$stage->getDescription()."</h2>\n";
+
+
+    $activities = $stage->getActivities();
+    if (sizeof($activities) > 0) {
+        foreach ($activities as $activity) {
+
+            $sub_index ++;
+            //var_dump($activity);
+            $activity_name = $activity->getName();
+            $html .= "<h3 class='activity'>".$activity_name."</h3>\n";
+            $html .= str_replace($search, $replace, $activity->getDescription())."\n";
+        }
+        $html .= $bookEnd;
+        $book->addChapter($stage->getPlace()->getName(), "Chapter".$index."-".$sub_index.".html", $html);
+
+    }
+
+    $book->backLevel();
+
+
+
+
 }
 
 $book->rootLevel();

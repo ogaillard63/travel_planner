@@ -1,6 +1,6 @@
 <div class="container">
     <div class="page-header">
-        <h1 id="timeline">Timeline</h1>
+        <h1 id="timeline">Timeline <a href="make_ebook.php"><i class="fa fa-book fa-fw"></i></a></h1>
     </div>
     <ul class="timeline">
         {foreach from=$stages item=stage name=st}
@@ -16,7 +16,7 @@
                         <table class="table">
                             {foreach from=$stage->activities item=activity}
                             <tr>
-                                <td width="70%"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>&nbsp;<strong>{$activity->name}</strong></td>
+                                <td width="70%">>&nbsp;<a href="ajax.php?action=get_activity&id={$activity->id}" data-toggle="modal" data-target="#details-modal">{$activity->name}</a></td>
                                 <td width="10%"><span class="badge alert-success">{$activity->duration} {#days#}</span></td>
                                 <td width="20%" nowrap><span class="badge alert-info">{$activity->type->name}</span></td>
                             </tr>
@@ -28,3 +28,24 @@
         {/foreach}
     </ul>
 </div>
+<!-- view track modal -->
+<div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready( function() {
+        $('#details-modal').on('hide.bs.modal', function() {
+            $(this).removeData();
+        });
+    });
+</script>
+<style>
+    .modal .modal-body {
+        max-height: 420px;
+        overflow-y: auto;
+    }
+</style>

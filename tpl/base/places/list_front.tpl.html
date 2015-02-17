@@ -51,7 +51,6 @@
 	{/foreach}
 
 	var nbMarkers = places.length;
-	var mapCanvas = document.getElementById('map-canvas');
 	var map;
 	var bounds;
 	var lastZoomMarkerId = null;
@@ -65,7 +64,7 @@
 			mapTypeId: google.maps.MapTypeId.TERRAIN
 		};
 
-		var map = new google.maps.Map(mapCanvas,  mapOptions);
+		map = new google.maps.Map(document.getElementById('map-canvas'),  mapOptions);
 		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(new FullScreenControl(map));
 
 		bounds = new google.maps.LatLngBounds();

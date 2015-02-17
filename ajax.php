@@ -54,6 +54,23 @@ switch($action) {
         echo $html;
         break;
 
+    case "get_activity" :
+        $html = "";
+        $activities_manager = new ActivitiesManager($bdd);
+        $activity = $activities_manager->getActivity($id, true);
+        if ($activity != null) {
+            $html .= '<div class="modal-header">';
+            $html .= '    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+            $html .= '    <h4 class="modal-title" id="modal-label">'.$activity->getName().'</h4>';
+            $html .= '</div>';
+            $html .= '<div class="modal-body">';
+            $html .= $activity->getDescription().'</div>';
+        }
+        else $html = "Error !";
+        echo $html;
+        break;
+
+
     default:
 }
 ?>
