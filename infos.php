@@ -13,6 +13,7 @@ require_once( "inc/prepend.php" );
 $action				= Utils::get_input('action','both');
 $id					= Utils::get_input('id','both');
 $page				= Utils::get_input('page','both');
+$type_id			= Utils::get_input('type_id','post');
 $place_id			= Utils::get_input('place_id','both');
 $title				= Utils::get_input('title','post');
 $description		= Utils::get_input('description','post');
@@ -25,16 +26,20 @@ if ($user->isLoggedIn() ) { // BO
 
 		case "add" :
 			$smarty->assign("info", new Info(array("id" => -1, "place_id" => $place_id)));
+			$type_manager = new TypesManager($bdd);
+			$smarty->assign("types", $type_manager->getTypesForSelect(2));
 			$smarty->assign("content", "infos/edit.tpl.html");
 			break;
 
 		case "edit" :
 			$smarty->assign("info", $infos_manager->getInfo($id));
+			$type_manager = new TypesManager($bdd);
+			$smarty->assign("types", $type_manager->getTypesForSelect(2));
 			$smarty->assign("content", "infos/edit.tpl.html");
 			break;
 
 		case "save" :
-			$data = array("id" => $id, "place_id" => $place_id, "title" => $title, "description" => $description);
+			$data = array("id" => $id, "place_id" => $place_id, "type_id" => $type_id, "title" => $title, "description" => $description);
 			$infos_manager->saveInfo(new Info($data));
 			$log->notification($translate->__('the_info_has_been_saved'));
 			Utils::redirection("infos.php?place_id=" . $place_id);
@@ -52,7 +57,7 @@ if ($user->isLoggedIn() ) { // BO
 			$smarty->assign("titre", $translate->__('list_of_infos'));
 			$places_manager = new PlacesManager($bdd);
 			$smarty->assign("place", $places_manager->getPlace($place_id));
-			$smarty->assign("infos", $infos_manager->getInfos($place_id));
+			$smarty->assign("infos", $infos_manager->getInfos($place_id, true));
 			$smarty->assign("content", "infos/list.tpl.html");
 	}
 }
@@ -61,7 +66,7 @@ else {
 
 		case "view" :
 			$bc = new Breadcrumb($bdd, "info", $id, $action); // Breadcrumbs
-			$smarty->assign("info", $infos_manager->getInfo($id));
+			$smarty->assign("info", $infos_manager->getInfo($id, true));
 			$smarty->assign("content", "infos/view_front.tpl.html");
 			break;
 

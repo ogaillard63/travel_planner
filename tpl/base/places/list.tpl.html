@@ -15,7 +15,7 @@
 							<!-- <td align="center"><a class="" href="http://maps.google.fr/maps?f=q&hl=fr&q={$place->gps_coord|strip:''}" title="{$place->gps_coord}" target="_blank"><i class="fa fa-map-marker fa-2x"></i></a>
 							</td>-->
 							<!--<td align="left">{$place->description|nl2br|truncate:40:' ... ':false}</td>-->
-							<td width="1%" align="center"><a class="btn btn-xs btn-primary" href="activities.php?place_id={$place->id}&country_id={$place->country_id}" title="{#activities#|ucfirst}"><i class="fa fa-star-o"></i></a></td>
+							<td width="1%" align="center"><a class="btn btn-xs btn-primary" href="activities.php?place_id={$place->id}&country_id={$place->country_id}" title="{#activities#|ucfirst}"><i class="fa fa-star"></i></a></td>
 							<td width="1%" align="center"><a class="btn btn-xs btn-info" href="infos.php?place_id={$place->id}&country_id={$place->country_id}" title="{#infos#|ucfirst}"><i class="fa fa-info-circle"></i></a></td>
 							<td width="1%" align="center"><a class="btn btn-xs btn-warning" href="places.php?action=pdf&id={$place->id}&country_id={$place->country_id}" target="_blank" title="{#save_to_pdf#|ucfirst}"><i class="fa fa-file-pdf-o"></i></a></td>
 							<td width="1%" align="center"><a class="btn btn-xs btn-success" href="places.php?action=edit&id={$place->id}&country_id={$place->country_id}" title="{#edit#|ucfirst} {#this#} {#place#}"><i class="fa fa-pencil"></i></a></td>

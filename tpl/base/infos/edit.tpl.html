@@ -8,7 +8,11 @@
 					<input name="id" type="hidden" value="{$info->id}" />
 					<input name="place_id" type="hidden" value="{$info->place_id}" />
 					<input name="action" type="hidden" value="save" />
-					 <div class="form-group">
+					<div class="form-group">
+						<label for="type_id">{#type#|ucfirst}</label>
+						{if isset($info->type_id)}{html_options name=type_id options=$types selected=$info->type_id class="form-control"}{else}{html_options name=type_id options=$types class="form-control"}{/if}
+					</div>
+					<div class="form-group">
 						<label for="{#title#}">{#title#|ucfirst}</label>
 						<input class="form-control" type="text" name="title" value="{$info->title}" />
 					</div>

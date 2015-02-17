@@ -10,24 +10,7 @@
 		</div>
 	</div>
 	<div class="col-lg-8 col-xs-8">
-		<h4>{#infos#|ucfirst}</h4>
-		<div class="panel panel-default">
-			<div class="panel-body">
-				{if not empty($infos)}<table class="table table-hover table-striped">
-					<tbody>
-					{foreach from=$infos item=info}
-					<tr>
-						<td align="left"><a href="infos.php?action=view&place_id={$place->id}&id={$info->id}" >{$info->title}</a></td>
-					</tr>
-					{/foreach}
-					</tbody>
-				</table>
-				{else}<h4>{#empty_list#}</h4>{/if}
-			</div>
-		</div>
-	</div>
-	<div class="col-lg-8 col-xs-8">
-		<h4>{#activities#|ucfirst}</h4>
+		<h4><i class="fa fa-star fa-fw"></i> {#activities#|ucfirst}</h4>
 		<div class="panel panel-default">
 			<div class="panel-body">
 				{if not empty($activities)}<table class="table table-hover table-striped">
@@ -44,5 +27,22 @@
 			</div>
 		</div>
 	</div>
-
+	<div class="col-lg-8 col-xs-8">
+		<h4><i class="fa fa-info-circle fa-fw"></i> {#infos#|ucfirst}</h4>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				{if not empty($infos)}<table class="table table-hover table-striped">
+					<tbody>
+					{foreach from=$infos item=info}
+					<tr>
+						<td nowrap width="1%"><span class="badge">{$info->type->name}</span></td>
+						<td align="left"><a href="infos.php?action=view&place_id={$place->id}&id={$info->id}" >{$info->title}</a></td>
+					</tr>
+					{/foreach}
+					</tbody>
+				</table>
+				{else}<h4>{#empty_list#}</h4>{/if}
+			</div>
+		</div>
+	</div>
 </div>

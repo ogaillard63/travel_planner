@@ -9,6 +9,9 @@
 class Info {
 	public $id;
 	public $place_id;
+	public $place;
+	public $type_id;
+	public $type;
 	public $title;
 	public $description;
 
@@ -46,6 +49,27 @@ class Info {
 	}
 	public function getPlaceId() {
 		return $this->place_id;
+	}
+	// place
+	public function setPlace($place) {
+		$this->place = $place;
+	}
+	public function getPlace() {
+		return $this->place;
+	}
+	// type_id
+	public function setTypeId($type_id) {
+		$this->type_id = (integer)$type_id;
+	}
+	public function getTypeId() {
+		return $this->type_id;
+	}
+	// type
+	public function setType($type) {
+		$this->type = $type;
+	}
+	public function getType() {
+		return $this->type;
 	}
 	// title
 	public function setTitle($title) {

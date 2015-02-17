@@ -17,12 +17,17 @@ class InfosManager {
 	* Retourne l'objet info correspondant à l'Id
 	* @param $id
 	*/
-	public function getInfo($id) {
+	public function getInfo($id, $isEagerFetch = false) {
 	if ($id) {
 		$q = $this->bdd->prepare("SELECT * FROM infos WHERE id = :id");
 		$q->bindValue(':id', $id, PDO::PARAM_INT);
 		$q->execute();
-		return new Info($q->fetch(PDO::FETCH_ASSOC));
+		$info = new Info($q->fetch(PDO::FETCH_ASSOC));
+		if ($isEagerFetch) {
+			$types_manager = new TypesManager($this->bdd);
+			$info->setType($types_manager->getType($info->getTypeId()));
+		}
+		return $info;
 		}
 	}
 
@@ -32,7 +37,7 @@ class InfosManager {
 
 
 
-	public function getInfos($place_id = 0) {
+	public function getInfos($place_id = 0, $isEagerFetch = false) {
 		$infos = array();
 		if ($place_id > 0) {
 			$q = $this->bdd->prepare('SELECT * FROM infos WHERE place_id = :place_id');
@@ -43,8 +48,17 @@ class InfosManager {
 		}
 		$q->execute();
 		while ($data = $q->fetch(PDO::FETCH_ASSOC)) {
-			$infos[] = new Info($data);
-		}
+			$info = new Info($data);
+			if ($isEagerFetch) {
+				// Type
+				$type_manager = new TypesManager($this->bdd);
+				$info->setType($type_manager->getType($info->getTypeId()));
+				// Place
+				$place_manager = new PlacesManager($this->bdd);
+				$info->setPlace($place_manager->getPlace($info->getPlaceId()));
+				}
+				$infos[] = $info;
+			}
 		return $infos;
 	}
 	
@@ -81,12 +95,13 @@ class InfosManager {
 	*/
 	public function saveInfo(Info $info) {
 		if ($info->getId() == -1) {
-			$q = $this->bdd->prepare('INSERT INTO infos SET place_id = :place_id, title = :title, description = :description');
+			$q = $this->bdd->prepare('INSERT INTO infos SET place_id = :place_id, type_id = :type_id, title = :title, description = :description');
 		} else {
-			$q = $this->bdd->prepare('UPDATE infos SET place_id = :place_id, title = :title, description = :description WHERE id = :id');
+			$q = $this->bdd->prepare('UPDATE infos SET place_id = :place_id, type_id = :type_id, title = :title, description = :description WHERE id = :id');
 			$q->bindValue(':id', $info->getId(), PDO::PARAM_INT);
 		}
 		$q->bindValue(':place_id', $info->getPlaceId(), PDO::PARAM_INT);
+		$q->bindValue(':type_id', $info->getTypeId(), PDO::PARAM_INT);
 		$q->bindValue(':title', $info->getTitle(), PDO::PARAM_STR);
 		$q->bindValue(':description', $info->getDescription(), PDO::PARAM_STR);
 		$q->execute();

@@ -12,6 +12,7 @@
 				{if not empty($infos)}<table class="table table-striped">
 				<thead>
 				<tr>
+					<th>{#type#|ucfirst}</th>
 					<th>{#title#|ucfirst}</th>
 					<th colspan="2">{#actions#|ucfirst}</th>
 				</tr>
@@ -19,7 +20,8 @@
 				<tbody>
 				{foreach from=$infos item=info}
 				<tr>
-					<td align="left">{$info->title}</td>
+					<td width="1%"><span class="badge">{$info->type->name}</span></td>
+					<td>{$info->title}</td>
 					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="infos.php?action=edit&id={$info->id}&place_id={$info->place_id}" title="{#edit#|ucfirst} {#this#} {#info#}"><i class="fa fa-pencil"></i></a></td>
 					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="infos.php?action=delete&id={$info->id}&place_id={$info->place_id}" title="{#delete#|ucfirst} {#this#} {#info#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#info#} ?')"><i class="fa fa-trash"></i></a></td>
 				</tr>
