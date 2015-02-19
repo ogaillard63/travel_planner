@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookId" version="2.0">
+	<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"
+			  xmlns:opf="http://www.idpf.org/2007/opf"
+			  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+		<dc:subject>Trip 333</dc:subject>
+		<dc:subject>Itinéraire de voyage</dc:subject>
+		<dc:title>Trip 333</dc:title>
+		<dc:language>fr</dc:language>
+		<dc:identifier id="BookId" opf:scheme="URI">http://www.trip333.com/</dc:identifier>
+		<dc:date opf:event="publication">2015-02-18T08:52:54.000000+00:00</dc:date>
+		<dc:description>Itinéraire de voyage</dc:description>
+		<dc:publisher>Travel Planner</dc:publisher>
+		<dc:relation>http://www.trip333.com/</dc:relation>
+		<dc:creator opf:file-as="Travel Planner" opf:role="aut">Travel Planner</dc:creator>
+		<dc:source>http://www.trip333.com/</dc:source>
+		<meta name="cover" content="cover_image" />
+		<meta name="generator" content="EPub (Version 3.2) by Travel Planner" />
+	</metadata>
+
+	<manifest>
+		<item id="ncx" href="book.ncx" media-type="application/x-dtbncx+xml" />
+		<item id="css" href="styles.css" media-type="text/css" />
+		<item id="cover_image" href="cover.jpg" media-type="image/jpeg" />
+{foreach from=$parts item=part name=p}		<item id="navpoint-{$smarty.foreach.p.iteration}" href="{$part.link}" media-type="application/xhtml+xml" />
+{/foreach}
+
+	</manifest>
+
+	<spine toc="ncx">
+		{foreach from=$parts item=part name=p}		<itemref idref="navpoint-{$smarty.foreach.p.iteration}"/>
+		{/foreach}
+	</spine>
+
+	<guide>
+		<reference type="toc" title="Sommaire" href="toc.html" />
+		<reference type="text" title="Introduction" href="intro.html" />
+	</guide>
+</package>

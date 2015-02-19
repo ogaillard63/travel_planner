@@ -14,6 +14,7 @@ date_default_timezone_set('Europe/Paris');
 
 define('PATH_APP', 			realpath(dirname (__FILE__).'/..'));
 define('PATH_INC', 			PATH_APP.'/inc');
+define('PATH_RES', 			PATH_APP.'/res');
 define('PATH_LANG',			PATH_APP.'/lang');
 define('PATH_PROPERTIES', 	PATH_INC.'/properties');
 define('PATH_CLASSES', 		PATH_INC.'/classes');
