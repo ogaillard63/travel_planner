@@ -20,7 +20,7 @@ function smarty_modifier_clean_tags($params) {
 
     $params = strip_tags($params, "<br><strong>");
 
-    $search  = array("<br>");
-    $replace = array("</p><p>");
+    $search  = array("<br>", "<BR>", "</br>", "</BR>");
+    $replace = array("</p><p>", "</p><p>", "</p><p>", "</p><p>");
     return "<p>".str_replace($search, $replace, $params)."</p>";
 }

@@ -5,7 +5,7 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 define('EPUB_OUT_PATH', PATH_RES.'/ebook');
-$fileName = "trip333.zip";
+$fileName = "trip333.epub";
 $parts = array(); // table of content
 $zip = new Zip();
 $zip->setExtraField(FALSE);
