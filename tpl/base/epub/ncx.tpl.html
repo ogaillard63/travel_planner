@@ -19,12 +19,14 @@
 
 	<navMap>
 		{foreach from=$parts item=part name=p}
+		{if $smarty.foreach.p.iteration > 1 && !isset($part.level)}</navPoint>{/if}
 		<navPoint id="navpoint-{$smarty.foreach.p.iteration}" playOrder="{$smarty.foreach.p.iteration}">
 			<navLabel>
 				<text>{$part.title}</text>
 			</navLabel>
 			<content src="{$part.link}" />
-		</navPoint>
+			{if  isset($part.level)}</navPoint>{/if}
 		{/foreach}
+		</navPoint>
 	</navMap>
 </ncx>
