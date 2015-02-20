@@ -8,11 +8,13 @@
     </head>
     <body>
 {if isset($title)}        <h1 class="country">{$title}</h1>{/if}
-{if isset($subtitle) && !empty($subtitle)}        <h2 class="place">{$subtitle}</h2>{/if}
-{if isset($content)}        <div class="content">{$content}</div>{/if}
+{if isset($subtitle) && !empty($subtitle)}
+<h2 class="place">{$subtitle}</h2>{/if}
+{if isset($content)}
+<div class="content">{$content|clean_tags}</div>{/if}
 {if isset($activities)}  {foreach from=$activities item=activity}
     <h3 class="activity">{$activity->name}</h3>
-    <div class="activity">{$activity->description}</div>
+    <div class="activity">{$activity->description|clean_tags}</div>
     {/foreach}{/if}
     </body>
 </html>

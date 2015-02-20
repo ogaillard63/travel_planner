@@ -1,6 +1,8 @@
 <?php
 require_once( "inc/prepend.php" );
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 define('EPUB_OUT_PATH', PATH_RES.'/ebook');
 $fileName = "trip333.zip";
@@ -36,8 +38,7 @@ $content = file_get_contents(EPUB_OUT_PATH."/OEBPS/styles.css");
 $zip->addFile($content, "OEBPS/styles.css", 0, NULL, FALSE);
 
 // chapters
-$search  = array("<div>", "</div>", "<br>");
-$replace = array("<p>", "</p>", "</br>");
+
 $last_country = "";
 $index_country = 0;
 $index_stage = 0;
@@ -53,8 +54,7 @@ foreach ($stages as $stage) {
 		$index_country++;
 		$smarty->assign("title", $country_name);
 		$smarty->assign("subtitle", "");
-		$text = str_replace($search, $replace, $stage->getPlace()->getCountry()->getDescription());
-		$smarty->assign("content", $text);
+		$smarty->assign("content", $stage->getPlace()->getCountry()->getDescription());
 		$content = $smarty->fetch("epub/chapter.tpl.html");
 		$zip->addFile($content, "OEBPS/chapter".$index_country.".html", 0, NULL, FALSE);
 		$parts[] = array("title" => $country_name, "link" => "chapter".$index_country.".html");
@@ -67,9 +67,10 @@ foreach ($stages as $stage) {
 	$place_name = $stage->getPlace()->getName();
 	$smarty->assign("title", $country_name);
 	$smarty->assign("subtitle", $place_name);
-	//$place_desc = str_replace($search, $replace, $stage->getPlace()->getDescription());
 	$smarty->assign("content", $stage->getPlace()->getDescription());
 	// activities
+
+
 	$smarty->assign("activities", $stage->getActivities());
 	$content = $smarty->fetch("epub/chapter.tpl.html");
 	$zip->addFile($content, "OEBPS/chapter".$index_country."-".$index_stage.".html", 0, NULL, FALSE);
@@ -94,5 +95,5 @@ if (is_file($fileName)) unlink($fileName);
 
 $zipData = $zip->sendZip($fileName, "application/epub+zip");
 
-require_once( "inc/append.php" );
+
 ?>
