@@ -38,8 +38,8 @@
 		</div>
 	</div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js"></script>
-<script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyC-8WZRTjxh_EGSa5UAMzdTinzpZpvUkC0"></script>
+<script src="https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/src/markerclusterer.js"></script>
 
 <script type="text/javascript">
 	var icon_marker = "{$tpl}/assets/css/img/star.png";
@@ -67,7 +67,9 @@
 			addMarker();
 		}
 
-		var markerCluster = new MarkerClusterer(map, markers);
+		var markerCluster = new MarkerClusterer(map, markers, {
+			imagePath: 'https://cdn.rawgit.com/googlemaps/js-marker-clusterer/gh-pages/images/m'
+		});
 		map.fitBounds(bounds);
 
 	}
