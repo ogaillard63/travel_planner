@@ -1,0 +1,7 @@
+29/01/2015
++ debug Datepicker / plugin non chargé
++ debug upload gpx track / delete non fonctionnel
+
+
+ALTER TABLE  `activities` ADD  `gps_coord` VARCHAR( 32 ) NOT NULL AFTER  `file_path` ;
+ALTER TABLE  `activities` ADD  `getting_there` TEXT NOT NULL AFTER  `name` ;

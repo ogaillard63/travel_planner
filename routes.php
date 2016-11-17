@@ -28,16 +28,16 @@ switch($action) {
 	
 	case "add" :
 		$smarty->assign("route", new Route(array("id" => -1, "country_id" => $country_id)));
-		$place_manager = new PlacesManager($bdd);
-		$smarty->assign("places", $place_manager->getPlacesForSelect($country_id));
+		$places_manager = new PlacesManager($bdd);
+		$smarty->assign("places", $places_manager->getPlacesForSelect($country_id));
 		$smarty->assign("content", "routes/edit.tpl.html");
 		$smarty->display("main.tpl.html");
 		break;
 	
 	case "edit" :
 		$smarty->assign("route", $routes_manager->getRoute($id));
-		$place_manager = new PlacesManager($bdd);
-		$smarty->assign("places", $place_manager->getPlacesForSelect($country_id));
+		$places_manager = new PlacesManager($bdd);
+		$smarty->assign("places", $places_manager->getPlacesForSelect($country_id));
 		$smarty->assign("content","routes/edit.tpl.html");
 		$smarty->display("main.tpl.html");
 		break;
@@ -63,7 +63,7 @@ switch($action) {
 	default:
 		$smarty->assign("titre", $translate->__('list_of_routes'));
 		$smarty->assign("routes", $routes_manager->getRoutes($country_id, true));
-		$smarty->assign("country_id", $country_id, true);
+		$smarty->assign("country_id", $country_id);
 		$smarty->assign("content", "routes/list.tpl.html");
 		$smarty->display("main.tpl.html");
 }

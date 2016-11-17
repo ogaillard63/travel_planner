@@ -13,7 +13,8 @@ class Place {
 	public $gps_coord;
 	public $name;
 	public $description;
-	public $sort;
+	public $photo;
+	public $position;
 
 	public function __construct(array $data) {
 		$this->hydrate($data);
@@ -77,6 +78,13 @@ class Place {
 	}
 	public function getDescription() {
 		return $this->description;
+	}
+	// photo
+	public function setPhoto($photo) {
+		$this->photo = $photo;
+	}
+	public function getPhoto() {
+		return $this->photo;
 	}
 	// position
 	public function setPosition($position) {

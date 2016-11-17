@@ -18,7 +18,7 @@
 					<td align="center" width="1%"><img src="{$country->flag}"></td>
 					<td><a href="places.php?country_id={$country->id}">{$country->name}</a></td>
 					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-warning" href="places.php?country_id={$country->id}&continent_id={$country->continent_id}" title="{#places#|ucfirst}"><i class="fa fa-star"></i></a></td>
-					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-info" href="routes.php?country_id={$country->id}&continent_id={$country->continent_id}" title="{#routes#|ucfirst}"><i class="fa fa-bus"></i></a></td>
+					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-info" href="stages.php?country_id={$country->id}&continent_id={$country->continent_id}" title="{#stages#|ucfirst}"><i class="fa fa-bus"></i></a></td>
 			</tr>
 				{/foreach}{/if}
 			{/foreach}

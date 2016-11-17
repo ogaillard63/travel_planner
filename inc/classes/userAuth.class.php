@@ -13,10 +13,10 @@ class UserAuth extends User {
 	
 	// Déclaration des variables
 	protected $bdd;
-	
+
 	const MEMBER_PAGE			= "index.php";
 	const LOGIN_PAGE			= "identification.php";
-	const LOGOUT_PAGE 			= "identification.php";
+	const LOGOUT_PAGE 			= "index.php";
 	const MSG_ERROR_FORM		= "Merci de compléter le formulaire";
 	const MSG_SESSION_EXPIRED	= "Désolé, votre session a expirée !";
 	const MSG_ERROR_USER 		= "Identifiant et/ou mot de passe incorrect !";
@@ -100,6 +100,7 @@ class UserAuth extends User {
 		if (isset($_POST["login"]) && isset($_POST["password"]) && $_POST["login"] != "" && $_POST["password"] != "") {
 			$this->login = trim($_POST["login"]);
 			$this->password = trim(md5($_POST["password"]));
+			$this->referer = $_POST["referer"];
 			return true;
 		}
 		else return false;
@@ -108,7 +109,7 @@ class UserAuth extends User {
 	/**
 	 * Connexion de l'user
 	 **/
-	function login() {
+	function login($referer = null) {
 		// si l'user est déjà connecté
 		if ($this->verifySession()) {
 			$this->redirect(self::MEMBER_PAGE);
@@ -124,7 +125,8 @@ class UserAuth extends User {
 			return self::MSG_ERROR_USER;
 			else {
 				$this->writeSession();
-				$this->redirect(self::MEMBER_PAGE);
+				if ($this->referer != null) $this->redirect($this->referer);
+				else $this->redirect(self::MEMBER_PAGE);
 			}
 		}
 	}
@@ -143,12 +145,20 @@ class UserAuth extends User {
 	/**
 	 * Vérifie si l'user est connecté
 	 **/
-	function isLoggedIn() {
+	/*function isLoggedIn() {
 		// verify if user is already logged in
 		if (!$this->verifySession()) {
 			$this->redirect(self::LOGIN_PAGE);
 		}
+	}*/
+
+	function isLoggedIn() {
+		if ($this->verifySession()) {
+			return true;
+		}
+		return false;
 	}
+
 
 	/**
 	 * @desc 	Retourne le profil de l'user

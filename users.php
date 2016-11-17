@@ -24,7 +24,8 @@ $profil_id			= Utils::get_input('profil_id','post');
 $mdp1 				= Utils::get_input('mdp1','post');
 $mdp2 				= Utils::get_input('mdp2','post');
 $expiration			= Utils::date2sql(Utils::get_input('expiration','post'));
-$users_manager 		= new UserManager($bdd);
+
+$users_manager 		= new UsersManager($bdd);
 
 // Breadcrumbs
 $bc = new Breadcrumb($bdd, "users");

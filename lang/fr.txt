@@ -17,7 +17,8 @@ edit_a_photo = modifier une photo
 add_a_photo = ajouter une nouvelle photo
 edit_a_type = modifier un type d'activité
 add_a_type = ajouter un nouveau type d'activité
-
+edit_an_info = modifier une info pratique
+add_an_info = ajouter une info pratique
 # labels
 home = accueil
 action = action
@@ -28,6 +29,8 @@ country = pays
 countries = pays
 activity = activité
 activities = activités
+info = info pratique
+infos = infos pratiques
 place = lieu
 places = lieux
 route = trajet
@@ -41,9 +44,13 @@ post = article
 posts = articles
 type = type
 types = types
-important = Bon à savoir
 map = carte
-expiration = expiration
+file = fichier
+gps_file = fichier GPS
+browse = selectionner
+cancel = annuler
+length_of_stay = durée du séjour
+days = J
 
 # fields
 name = nom
@@ -61,11 +68,16 @@ gps_lon = longitude
 caption = légende
 modification = modification
 title = titre
+duration = durée
 text = texte
 description = description
+stages = étapes
+stage = étape
 flag = drapeau
 key = clef
-gps_track = Trace GPS
+GPS_track = trace GPS
+arrival_date = date d'arrivée
+getting_there = accés
 
 #messages
 empty_list = La liste est vide !
@@ -86,18 +98,19 @@ the_post_has_been_saved = L'article a été sauvegardé.
 the_post_has_been_deleted = L'article a été effacé !
 the_user_has_been_saved = L'utilisateur a été sauvegardé.
 the_user_has_been_deleted = L'utilisateur a été effacé !
-the_post_has_been_saved = L'article a été sauvegardé.
-the_post_has_been_deleted = L'article a été effacé !
-you_are_not_allowed_to_do_this_action = vous n'êtes pas autorisé à faire cette action !
-save_to_pdf = Enregistrer en PDF
+the_stage_has_been_saved = L'étape a été sauvegardée.
+the_stage_has_been_deleted = L'étape a été effacée !
+no_result = aucun résultat pour cette recherche
 
+# helps
+duration_in_days = Durée en jours
 # buttons
 edit = modifier
 delete = effacer
 save = enregistrer
 exit = quitter
 connection = connexion
-cancel = annuler
+close = fermer
 
 # misc
 list = liste

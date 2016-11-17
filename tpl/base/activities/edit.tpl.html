@@ -4,41 +4,201 @@
 			<div class="panel-heading">{if $activity->id > -1}{#edit_an_activity#|ucfirst}{else}{#add_an_activity#|ucfirst}{/if}
 			</div>
 			<div class="panel-body">
-				<form name="form_param" method="post" action="activities.php">
+				<form name="form_param" method="post" action="activities.php" enctype="multipart/form-data">
 					<input name="id" type="hidden" value="{$activity->id}" />
 					<input name="place_id" type="hidden" value="{$activity->place_id}" />
+					<input id="file_path" name="file_path" type="hidden" value="{$activity->file_path}" />
 					<input name="action" type="hidden" value="save" />
-					<fieldset>
-						<div class="form-group">
-							<label>{#name#|ucfirst}</label>
-							<input class="form-control" type="text" name="name" value="{$activity->name}" />
-						</div>
-						<div class="form-group">
-							<label>{#type#|ucfirst}</label>
+					<div class="form-group row">
+						<div class="col-md-2">
+							<label for="type_id">{#type#|ucfirst}</label>
 							{if isset($activity->type_id)}{html_options name=type_id options=$types selected=$activity->type_id class="form-control"}{else}{html_options name=type_id options=$types class="form-control"}{/if}
 						</div>
-						<!--<div class="form-group">
-                            <label>{#important#|ucfirst}</label>
-                            <textarea class="form-control" name="important" rows="5">{$activity->important}</textarea>
-                        </div>-->
-						<div class="form-group">
-							<label>{#description#|ucfirst}</label>
-							<textarea id="editor" class="form-control" name="description" rows="20">{$activity->description}</textarea>
+						<div class="col-md-9">
+							<label for="name">{#name#|ucfirst}</label>
+							<input class="form-control" type="text" name="name" value="{$activity->name}"/>
 						</div>
-					</fieldset>
-					<div align="right">
-						<button class="btn btn-danger" type="cancel">Annuler</button>
+						<div class="col-md-1">
+							<label for="duration">{#duration#|ucfirst}</label>
+							<input class="form-control" type="text" name="duration" value="{$activity->duration}" title="{#duration_in_days#}"/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-md-3">
+							<label for="gps_coord">{#gps_coord#|ucfirst}</label>
+							<input class="form-control" type="text" name="gps_coord" value="{$activity->gps_coord}"/>
+						</div>
+						<div class="col-md-9">
+							<div id="show_file"{if empty($activity->file_path)} style="display:none;"{/if}>
+								<label for="file_path" class="col-sm-12">{#gps_file#|ucfirst}</label>
+								<div class="col-xs-10"><input type="text" class="form-control" value="{$activity->file_path}" disabled></div>
+								<div class="col-xs-2 btn-group">
+									<span id="open-map-modal" class="btn btn-primary btn-file" data-toggle="modal" data-target="#map-modal" title="view_the_track"><i class="fa fa-area-chart"></i></span>
+									<span id="remove_file" class="btn btn-danger btn-file" title="remove_the_track"><i class="fa fa-trash"></i></span>
+								</div>
+							</div>
+							<div id="upload_file"{if !empty($activity->file_path)} style="display:none;"{/if}>
+								<label>{#gps_file#|ucfirst}</label>
+								<div class="input-group">
+								<span class="input-group-btn">
+									<span class="btn btn-primary btn-file">{#browse#|ucfirst} … <input type="file" name="gps_file"></span>
+								</span>
+									<input type="text" class="form-control" readonly="">
+								</div>
+								<span class="help">Only GPX file with max size of 1Mb.</span>
+							</div>
+						</div>
+
+					</div>
+					<div class="form-group">
+						<label for="getting_there">{#getting_there#|ucfirst}</label>
+						<textarea class="form-control" name="getting_there" rows="4">{$activity->getting_there}</textarea>
+					</div>
+					<div class="form-group">
+						<label for="description">{#description#|ucfirst}</label>
+						<textarea id="editor" class="form-control" name="description" rows="12">{$activity->description}</textarea>
+					</div>
+					<div class="form-group pull-right">
+						<!--<button class="btn btn-danger" type="cancel">Annuler</button>&nbsp;-->
 						<input type="submit" value="{#save#|capitalize}" class="btn btn-success" />
 					</div>
 				</form>
-				<script>
-					$('#editor').wysihtml5({
-						"font-styles": false, "emphasis": true, "lists": false, "html": true, "link": false, "image": false, "color": false, "blockquote": false
-					});
-				</script>
 			</div>
 		</div>
 	</div>
+</div>
+<!-- view track modal -->
+<div class="modal fade" id="map-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">{#GPS_track#|ucfirst}</h4>
+			</div>
+			<div class="modal-body">
+				<div id="map_canvas" style="width: 100%; height: 400px;"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">{#close#|ucfirst}</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script type="text/javascript">
+	var map;
+	function showTrack() {
+		var mapOptions = {
+			mapTypeId: google.maps.MapTypeId.TERRAIN
+			};
+		map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+		// get the track
+		$.ajax({
+			type: "GET",
+			url: "{$activity->file_path}",
+			dataType: "xml",
+			success: function(xml) {
+				var points = [];
+				var bounds = new google.maps.LatLngBounds ();
+				$(xml).find("trkpt").each(function() {
+					var lat = $(this).attr("lat");
+					var lon = $(this).attr("lon");
+					var p = new google.maps.LatLng(lat, lon);
+					points.push(p);
+					bounds.extend(p);
+				});
+
+				var poly = new google.maps.Polyline({
+					// use your own style here
+					path: points,
+					strokeColor: "#FF00AA",
+					strokeOpacity: .7,
+					strokeWeight: 4
+				});
+
+				poly.setMap(map);
+
+				// fit bounds to track
+				map.fitBounds(bounds);
+			}
+		});
+	}
+
+	$(document).ready( function() {
+
+		$('#editor').wysihtml5({
+			"font-styles": false, "emphasis": true, "lists": false, "html": true, "link": false, "image": false, "color": false, "blockquote": false
+		});
+
+		$('.btn-file :file').on('change', function() {
+			var input = $(this),
+					numFiles = input.get(0).files ? input.get(0).files.length : 1,
+					label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+			input.trigger('fileselect', [numFiles, label]);
+		});
+
+		$('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+
+			var input = $(this).parents('.input-group').find(':text'),
+					log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+			if( input.length ) {
+				input.val(log);
+			} else {
+				if( log ) alert(log);
+			}
+
+		});
+
+		$('#remove_file').on( "click", function() {
+			$('#show_file').hide();
+			$('#upload_file').show();
+			$('#file_path').val(""); // remove file if exist
+		});
+
+		$("#map-modal").on("shown.bs.modal", function() {
+			showTrack();
+			google.maps.event.trigger(map, 'resize');
+		});
+		/*
+		$("#map_canvas").on("own.bs.modal", function() {
+			console.log("show map_canvas");
+			google.maps.event.trigger(map, 'resize');
+			// get the track
+			$.ajax({
+				type: "GET",
+				url: "{$activity->file_path}",
+				dataType: "xml",
+				success: function(xml) {
+					var points = [];
+					var bounds = new google.maps.LatLngBounds ();
+					$(xml).find("trkpt").each(function() {
+						var lat = $(this).attr("lat");
+						var lon = $(this).attr("lon");
+						var p = new google.maps.LatLng(lat, lon);
+						points.push(p);
+						bounds.extend(p);
+					});
+
+					var poly = new google.maps.Polyline({
+						// use your own style here
+						path: points,
+						strokeColor: "#FF00AA",
+						strokeOpacity: .7,
+						strokeWeight: 4
+					});
+
+					poly.setMap(map);
+
+					// fit bounds to track
+					map.fitBounds(bounds);
+				}
+			});
+
+
+		});*/
 
 
 
+	});
+</script>

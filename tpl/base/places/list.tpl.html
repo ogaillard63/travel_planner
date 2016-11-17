@@ -11,10 +11,12 @@
 					<tbody class="tableSortable">
 					{foreach from=$places item=place}
 						<tr id="position_{$place->id}">
-							<td align="left"><a href="activities.php?place_id={$place->id}">{$place->name}</a></td>
+							<td align="left"><a href="places.php?action=edit&id={$place->id}">{$place->name}</a></td>
 							<!-- <td align="center"><a class="" href="http://maps.google.fr/maps?f=q&hl=fr&q={$place->gps_coord|strip:''}" title="{$place->gps_coord}" target="_blank"><i class="fa fa-map-marker fa-2x"></i></a>
 							</td>-->
 							<!--<td align="left">{$place->description|nl2br|truncate:40:' ... ':false}</td>-->
+							<td width="1%" align="center"><a class="btn btn-xs btn-primary" href="activities.php?place_id={$place->id}&country_id={$place->country_id}" title="{#activities#|ucfirst}"><i class="fa fa-star"></i></a></td>
+							<td width="1%" align="center"><a class="btn btn-xs btn-info" href="infos.php?place_id={$place->id}&country_id={$place->country_id}" title="{#infos#|ucfirst}"><i class="fa fa-info-circle"></i></a></td>
 							<td width="1%" align="center"><a class="btn btn-xs btn-warning" href="places.php?action=pdf&id={$place->id}&country_id={$place->country_id}" target="_blank" title="{#save_to_pdf#|ucfirst}"><i class="fa fa-file-pdf-o"></i></a></td>
 							<td width="1%" align="center"><a class="btn btn-xs btn-success" href="places.php?action=edit&id={$place->id}&country_id={$place->country_id}" title="{#edit#|ucfirst} {#this#} {#place#}"><i class="fa fa-pencil"></i></a></td>
 							<td width="1%" align="center"><a class="btn btn-xs btn-danger" href="places.php?action=delete&id={$place->id}&country_id={$place->country_id}" title="{#delete#|ucfirst} {#this#} {#place#}" onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#place#} ?')"><i class="fa fa-trash"></i></a></td>
@@ -63,32 +65,44 @@
 	});
 </script>
 <script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="{$tpl}/assets/js/FullScreenControl.js"></script>
 <script src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 
 <script type="text/javascript">
 	var icon_marker = "{$tpl}/assets/css/img/star.png";
 	var markers = [];
 	var iterator = 0;
-	var places = [];
+	var icon_place = "{$tpl}/assets/css/img/pink-marker.png";
+	var icon_activity = "{$tpl}/assets/css/img/trek-marker.png";
+	var poi = [];
 
-	{foreach from=$allPlaces item=place}
-	{literal}places.push({{/literal}coord: new google.maps.LatLng({$place->gps_coord}), name: "{$place->name}"{literal}});{/literal}
-	{/foreach}
+	// places
+{foreach from=$allPlaces item=place}
+{literal}	poi.push({{/literal}coord: new google.maps.LatLng({$place->gps_coord}), name: "{$place->name}", icon: icon_place{literal}});{/literal}
+{/foreach}
 
-	var nbMarkers = places.length;
+	// activities
+{foreach from=$allActivities item=activity}{if !empty($activity->gps_coord)}{literal}
+	poi.push({{/literal}coord: new google.maps.LatLng({$activity->gps_coord}), name: "{$activity->name}", icon: icon_activity{literal}});{/literal}
+{/if}{/foreach}
+
+	var nbMarkers = poi.length;
 	var mapCanvas = document.getElementById('map-canvas');
-
 
 	function initialize() {
 		var mapOptions = {
 			disableDefaultUI: true,
-			mapTypeId: google.maps.MapTypeId.TERRAIN,
+			streetViewControl: true,
+			mapTypeControl: true,
+			mapTypeId: google.maps.MapTypeId.TERRAIN
 		};
 
 		var map = new google.maps.Map(mapCanvas,  mapOptions);
+		map.controls[google.maps.ControlPosition.TOP_RIGHT].push(new FullScreenControl(map));
+
 		var bounds = new google.maps.LatLngBounds();
 		for (var i = 0; i < nbMarkers; i++) {
-			bounds.extend(places[i].coord);
+			bounds.extend(poi[i].coord);
 			addMarker();
 		}
 
@@ -98,9 +112,9 @@
 
 	function addMarker() {
 		markers.push(new google.maps.Marker({
-			position: places[iterator].coord,
-			//icon: icon_marker,
-			title : places[iterator].name,
+			position: poi[iterator].coord,
+			icon: poi[iterator].icon,
+			title : poi[iterator].name,
 			draggable: false,
 			animation: google.maps.Animation.DROP
 		}));

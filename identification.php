@@ -7,7 +7,6 @@
  * @desc	   	Gestion de l'identification des users
  */
 
-define('TAG', "IDENTIFICATION");
 require_once( "inc/prepend.php" );
 
 // Récupération des variables
@@ -19,6 +18,7 @@ if ($action == "logout" || $action == "timeout") {
 }
 else {
 	$smarty->assign("warning", $user->login()); // Authentification
+	$smarty->assign("referer", (isset($_SERVER["HTTP_REFERER"]))?basename($_SERVER["HTTP_REFERER"]): null);
 	$smarty->assign("titre", "Identification");
 	$smarty->display("login.tpl.html");
 }

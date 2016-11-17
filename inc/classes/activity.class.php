@@ -1,10 +1,10 @@
 <?php
 /**
-* @project		
-* @author		Olivier Gaillard
-* @version		1.0 du 29/11/2014
-* @desc			Objet activity
-*/
+ * @project
+ * @author		Olivier Gaillard
+ * @version		1.0 du 29/11/2014
+ * @desc			Objet activity
+ */
 
 class Activity {
 	public $id;
@@ -12,8 +12,13 @@ class Activity {
 	public $place;
 	public $type_id;
 	public $type;
+	public $file_path;
+	public $gps_coord;
 	public $name;
+	public $getting_there;
 	public $description;
+	public $duration;
+	public $position;
 
 	public function __construct(array $data) {
 		$this->hydrate($data);
@@ -71,6 +76,20 @@ class Activity {
 	public function getType() {
 		return $this->type;
 	}
+	// file_path
+	public function setFilePath($file_path) {
+		$this->file_path = $file_path;
+	}
+	public function getFilePath() {
+		return $this->file_path;
+	}
+	// gps_coord
+	public function setGpsCoord($gps_coord) {
+		$this->gps_coord = $gps_coord;
+	}
+	public function getGpsCoord() {
+		return $this->gps_coord;
+	}
 	// name
 	public function setName($name) {
 		$this->name = $name;
@@ -78,12 +97,33 @@ class Activity {
 	public function getName() {
 		return $this->name;
 	}
+	// getting_there
+	public function setGettingThere($getting_there) {
+		$this->getting_there = $getting_there;
+	}
+	public function getGettingThere() {
+		return $this->getting_there;
+	}
 	// description
 	public function setDescription($description) {
 		$this->description = $description;
 	}
 	public function getDescription() {
 		return $this->description;
+	}
+	// duration
+	public function setDuration($duration) {
+		$this->duration = $duration;
+	}
+	public function getDuration() {
+		return $this->duration;
+	}
+	// position
+	public function setPosition($position) {
+		$this->position = $position;
+	}
+	public function getPosition() {
+		return $this->position;
 	}
 }
 ?>

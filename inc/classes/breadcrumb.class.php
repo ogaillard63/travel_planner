@@ -29,7 +29,56 @@ class Breadcrumb {
 		$crumbs[] = $this->getCrumb("Home", "index.php"); // base
 		
 		if (!empty($this->id)) switch ($this->items) {
-		
+
+			case "info" :
+				$manager = new InfosManager($this->bdd);
+				$info = $manager->getInfo($this->id);
+				$this->id = $info->place_id;
+
+				$manager = new PlacesManager($this->bdd);
+				$place = $manager->getPlace($this->id);
+				$this->id = $place->country_id;
+
+				$manager = new CountriesManager($this->bdd);
+				$country = $manager->getCountry($this->id);
+				$this->id = $country->continent_id;
+
+				$manager = new ContinentsManager($this->bdd);
+				$continent = $manager->getContinent($this->id);
+
+
+				$crumbs[] = $this->getCrumb($continent->name, "countries.php?continent_id=".$continent->id, true);
+				$crumbs[] = $this->getCrumb($country->name, "places.php?country_id=".$country->id, true);
+				$crumbs[] = $this->getCrumb($place->name, "activities.php?place_id=".$place->id, true);
+				//$crumbs[] = $this->getCrumb($activity->name, "", true);
+
+				break;
+
+			case "activity" :
+				$manager = new ActivitiesManager($this->bdd);
+				$activity = $manager->getActivity($this->id);
+				$this->id = $activity->place_id;
+
+				$manager = new PlacesManager($this->bdd);
+				$place = $manager->getPlace($this->id);
+				$this->id = $place->country_id;
+
+				$manager = new CountriesManager($this->bdd);
+				$country = $manager->getCountry($this->id);
+				$this->id = $country->continent_id;
+
+				$manager = new ContinentsManager($this->bdd);
+				$continent = $manager->getContinent($this->id);
+
+
+				$crumbs[] = $this->getCrumb($continent->name, "countries.php?continent_id=".$continent->id, true);
+				$crumbs[] = $this->getCrumb($country->name, "places.php?country_id=".$country->id, true);
+				$crumbs[] = $this->getCrumb($place->name, "activities.php?place_id=".$place->id, true);
+				$crumbs[] = $this->getCrumb($activity->name, "", true);
+
+				break;
+
+			case "infos" :
 			case "activities" :
 				$manager = new PlacesManager($this->bdd);
 				$place = $manager->getPlace($this->id);
@@ -50,6 +99,7 @@ class Breadcrumb {
 			break;
 
 			case "routes" :
+			case "stages" :
 			case "places" :
 				$manager = new CountriesManager($this->bdd);
 				$country = $manager->getCountry($this->id);

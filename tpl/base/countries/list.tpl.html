@@ -12,7 +12,7 @@
 						<td align="center" width="1%"><img src="{$country->flag}"></td>
 						<td align="left"><a href="places.php?country_id={$country->id}">{$country->name}</a></td>
 						<td width="1%" align="center"><a class="btn btn-xs btn-warning" href="countries.php?action=pdf&id={$country->id}&continent_id={$country->continent_id}" target="_blank" title="{#save_to_pdf#|ucfirst}"><i class="fa fa-file-pdf-o"></i></a></td>
-						<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-info" href="routes.php?country_id={$country->id}&continent_id={$country->continent_id}" title=""><i class="fa fa-bus"></i></a></td>
+						<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-info" href="stages.php?country_id={$country->id}&continent_id={$country->continent_id}" title=""><i class="fa fa-bus"></i></a></td>
 						<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="countries.php?action=edit&id={$country->id}&continent_id={$country->continent_id}" title="{#edit#|ucfirst} {#this#} {#country#}"><i class="fa fa-pencil"></i></a></td>
 						<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="countries.php?action=delete&id={$country->id}&continent_id={$country->continent_id}" title="{#delete#|ucfirst} {#this#} {#country#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#country#} ?')"><i class="fa fa-trash"></i></a></td>
 					</tr>

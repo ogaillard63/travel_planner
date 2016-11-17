@@ -14,6 +14,7 @@ date_default_timezone_set('Europe/Paris');
 
 define('PATH_APP', 			realpath(dirname (__FILE__).'/..'));
 define('PATH_INC', 			PATH_APP.'/inc');
+define('PATH_RES', 			PATH_APP.'/res');
 define('PATH_LANG',			PATH_APP.'/lang');
 define('PATH_PROPERTIES', 	PATH_INC.'/properties');
 define('PATH_CLASSES', 		PATH_INC.'/classes');
@@ -60,7 +61,7 @@ $log = new Logger($bdd, $smarty, $session);
 
 // Authentification
 $user = new UserAuth($bdd);
-
+//var_dump($_SESSION);
 // Profils
 define('SUPER_ADMIN', 		300);
 define('ADMIN', 			200);
@@ -72,7 +73,9 @@ if(isset($_GET['cnt'])) {
 	if (in_array($_GET['cnt'], array('fr','en')))
 	$_SESSION['filePathLang'] = PATH_LANG.'/'.$_GET['cnt'].".txt";
 	}
-$translate = new Translator($_SESSION['filePathLang']); 
+$translate = new Translator($_SESSION['filePathLang']);
+
+$smarty->assign("session", $_SESSION);
 
 // Gestion des notifications
 if ($alert = $session->getValue("alert")) {

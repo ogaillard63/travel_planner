@@ -1,0 +1,100 @@
+<div class="row">
+	<div class="col-xs-12">
+		<div class="panel panel-default">
+			<div class="panel-heading">{#list#|ucfirst} {#of_#} {#stages#}
+				<div class="pull-right"><a href="stages.php?action=add" class="btn btn-xs btn-primary pull-right" role="button">{#add#|ucfirst} {#a_#} {#stage#}</a>
+				</div>
+			</div>
+			<div class="panel-body">
+				{if not empty($stages)}<table class="table table-hover">
+				<thead>
+					<tr>
+						<th></th>
+						<th>{#arrival_date#|ucfirst}</th>
+						<th>{#country#|ucfirst}</th>
+						<th>{#place#|ucfirst}</th>
+						<th>{#length_of_stay#|ucfirst}</th>
+						<th colspan="2">{#actions#|ucfirst}</th>
+					</tr>
+				</thead>
+				<tbody class="tableSortable">
+				{foreach from=$stages item=stage}
+				<tr style="border-bottom: 1px solid #CCCCCC"  id="position_{$stage->id}">
+					<td align="center" width="1%">{if not empty($stage->activities)}<span data-target="#collapse_{$stage->id}" data-toggle="collapse" class="clickable" style="cursor: pointer;">+</span>{/if}</td>
+					<td align="left" width="1%">{$stage->arrival_date|date_format:"%d/%m/%Y"}</td>
+					<td align="left">{$stage->place->country->name}</td>
+					<td align="left">{$stage->place->name}</td>
+					<td align="left">{$stage->duration}</td>
+					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-success" href="stages.php?action=edit&id={$stage->id}" title="{#edit#|ucfirst} {#this#} {#stage#}"><i class="fa fa-pencil"></i></a></td>
+					<td width="1%" align="center" nowrap="nowrap"><a class="btn btn-xs btn-danger" href="stages.php?action=delete&id={$stage->id}" title="{#delete#|ucfirst} {#this#} {#stage#}"onclick="return confirm('{#do_you_really_want_to#|ucfirst} {#delete#} {#this#} {#stage#} ?')"><i class="fa fa-trash"></i></a></td>
+				</tr>
+				<!-- http://jsfiddle.net/QLfMU/116/ -->
+				{if not empty($stage->activities)}<tr><td colspan="7"  class="hiddenRow">
+					<div id="collapse_{$stage->id}" class="collapse" style="margin:0 0 0 20px;border: 1px solid #CCCCCC; border-top: none;"><table class="table table-hover table-striped" style="font-size:90%">
+						{foreach from=$stage->activities item=activity}
+							<tr>
+								<td align="left" width="1%"><span class="badge">{$activity->type->name}</span></td>
+								<td align="left" width="1%"><span class="badge">{$activity->duration} {#days#}</span></td>
+								<td align="left">{$activity->name}</td>
+							</tr>
+							{/foreach}
+						</table></div>
+					</td>
+				</tr>{/if}
+				{/foreach}
+				</tbody>
+			</table>
+				<ul class="pagination pull-left">
+					{if not empty($btn_nav)} {foreach from=$btn_nav item=btn}
+					<li{if $btn.active} class="active" {/if}><a href="stages.php?{$btn.link}">{$btn.label}</a>
+					</li>
+					{/foreach}{/if}
+				</ul>
+				{else}<h4>{#empty_list#}</h4>{/if}
+			</div>
+		</div>
+	</div>
+	<!--<div class="col-xs-3">
+		<div class="panel panel-default">
+			<div class="panel-heading" id="directions_panel" align="right">
+			</div>
+			<div class="panel-body">
+			</div>
+		</div>
+	</div>-->
+</div>
+<style>
+	.hiddenRow {
+		padding: 0 !important;
+	}
+	.highlight {
+		background-color: #DDD;
+	}
+</style>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+<script>
+	$(document).ready(function() {
+		$( "tbody.tableSortable" )
+				.sortable({
+					items: "tr",
+					placeholder: "highlight",
+					helper: function(e, tr) {
+						var helper = tr.clone();
+						helper.css({literal}{'background': '#FDF6C4',}{/literal});
+						return helper;
+					},
+					zIndex: 999990,
+					update: function(){
+						$.ajax({
+							data: $(this).sortable('serialize'),
+							type: 'POST',
+							url: 'ajax.php?action=sort_stages',
+							success : function(code_html, statut){
+								if(statut) location.reload(true);
+							}
+						});
+					}
+				})
+				.disableSelection()	;
+	});
+</script>

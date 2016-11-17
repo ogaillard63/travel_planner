@@ -1,0 +1,47 @@
+<div class="row">
+	<div class="col-lg-3 col-xs-4">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<img src="{if !empty($place->photo)}{$place->photo}{else}{$tpl}/assets/plugins/crop/img/nopic_400x300.jpg{/if}" alt="No Photo" width="100%">
+			</div>
+			<div class="panel-footer" style="max-height: 450px;overflow-y: scroll;">
+				{$place->description}
+			</div>
+		</div>
+	</div>
+	<div class="col-lg-9 col-xs-8">
+		<div class="panel panel-default">
+			<div class="panel-heading">{#list#|ucfirst} {#of_#} {#infos#}</div>
+			<div class="panel-body">
+				{if not empty($infos)}<table class="table table-hover table-striped">
+				<tbody>
+				{foreach from=$infos item=info}
+				<tr>
+					<td align="left"><a href="infos.php?action=view&place_id={$place->id}w&id={$info->id}" >{$info->title}</a></td>
+				</tr>
+				{/foreach}
+				</tbody>
+			</table>
+				{else}<h4>{#empty_list#}</h4>{/if}
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">{#list#|ucfirst} {#of_#} {#activities#}</div>
+			<div class="panel-body">
+				{if not empty($activities)}<table class="table table-hover table-striped">
+				<thead>
+				</thead>
+				<tbody>
+				{foreach from=$activities item=activity}
+				<tr>
+					<td nowrap width="1%"><span class="badge">{$activity->type->name}</span></td>
+					<td align="left"><a href="activities.php?action=view&place_id={$place->id}w&id={$activity->id}" >{$activity->name}</a></td>
+				</tr>
+				{/foreach}
+				</tbody>
+			</table>
+				{else}<h4>{#empty_list#}</h4>{/if}
+			</div>
+		</div>
+	</div>
+</div>

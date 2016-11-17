@@ -58,9 +58,10 @@ class TypesManager {
 	/**
 	 * Retourne une liste des types formatée pour peupler un menu déroulant
 	 */
-	public function getTypesForSelect() {
+	public function getTypesForSelect($key = 1) {
 		$types = array();
-		$q = $this->bdd->prepare('SELECT id, name FROM types ORDER BY id');
+		$q = $this->bdd->prepare('SELECT id, name FROM types WHERE `key` = :key ORDER BY id');
+		$q->bindValue(':key', $key, PDO::PARAM_INT);
 		$q->execute();
 		while ($row = $q->fetch(PDO::FETCH_ASSOC)) {
 			$types[$row["id"]] =  $row["name"];
